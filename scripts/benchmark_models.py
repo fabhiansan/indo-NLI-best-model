@@ -71,26 +71,33 @@ def find_model_checkpoints(
         return []
     
     # Find all model directories
+    logger.info(f"Searching for model checkpoints in: {models_path.absolute()}")
     model_dirs = []
     if recursive:
         for path in models_path.glob("**"):
             if path.is_dir() and any((path / subdir).exists() for subdir in ["best", "final", "checkpoint-*"]):
                 model_dirs.append(path)
+                logger.info(f"Found potential model directory: {path}")
     else:
         model_dirs = [p for p in models_path.iterdir() if p.is_dir()]
+        for dir in model_dirs:
+            logger.info(f"Found potential model directory: {dir}")
         
     # Find checkpoints within each model directory
     for model_dir in model_dirs:
         model_name = model_dir.name
+        logger.info(f"Searching for checkpoints in model directory: {model_dir}")
         
         # Check for 'best' checkpoint
         best_dir = model_dir / "best"
         if best_dir.exists():
+            logger.info(f"Found 'best' checkpoint for {model_name} at {best_dir}")
             checkpoints.append((model_name, best_dir))
         
         # Check for 'final' checkpoint
         final_dir = model_dir / "final"
         if final_dir.exists():
+            logger.info(f"Found 'final' checkpoint for {model_name} at {final_dir}")
             checkpoints.append((model_name, final_dir))
             
         # Check for epoch checkpoints
@@ -120,7 +127,13 @@ def find_model_checkpoints(
     # Sort by model name
     checkpoints.sort(key=lambda x: x[0])
     
-    logger.info("Found %d model checkpoints", len(checkpoints))
+    if checkpoints:
+        logger.info(f"Found {len(checkpoints)} model checkpoints:")
+        for name, path in checkpoints:
+            logger.info(f"  - {name}: {path}")
+    else:
+        logger.warning(f"No model checkpoints found in {models_dir}")
+    
     return checkpoints
 
 
@@ -138,19 +151,24 @@ def normalize_model_name(model_name: str) -> str:
     base_model_name = re.sub(r'-epoch-\d+$', '', model_name)
     base_model_name = re.sub(r'-base(?:-epoch-\d+)?$', '', base_model_name)
     
+    logger.info(f"Normalizing model name: {model_name} -> base name: {base_model_name}")
+    
     if "roberta" in base_model_name.lower():
-        return "Indo-roBERTa"
+        normalized = "Indo-roBERTa"
     elif "sentence-bert" in base_model_name.lower():
         # Handle different sentence-bert variants
         if "simple" in base_model_name.lower():
-            return "Sentence-BERT-Simple"
+            normalized = "Sentence-BERT-Simple"
         elif "proper" in base_model_name.lower():
-            return "Sentence-BERT-Proper"
+            normalized = "Sentence-BERT-Proper"
         else:
-            return "Sentence-BERT"
+            normalized = "Sentence-BERT"
     else:
         # Default to a simple capitalization for unknown models
-        return base_model_name.capitalize()
+        normalized = base_model_name.capitalize()
+    
+    logger.info(f"Normalized model name: {model_name} -> {normalized}")
+    return normalized
 
 
 def evaluate_model(
@@ -164,31 +182,69 @@ def evaluate_model(
     debug: bool = False,
 ) -> Dict[str, float]:
     """Evaluate a model on a specific data split."""
-    logger.info("Evaluating %s on %s...", model_name, split)
+    logger.info("=" * 80)
+    logger.info(f"EVALUATING MODEL: {model_name}")
+    logger.info(f"MODEL PATH: {model_path.absolute()}")
+    logger.info(f"DATASET SPLIT: {split}")
+    logger.info("=" * 80)
+    
+    # Check if the model path exists
+    if not model_path.exists():
+        logger.error(f"❌ MODEL PATH DOES NOT EXIST: {model_path.absolute()}")
+        return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0, "error": "Model path does not exist"}
+    
+    # List all files in the model directory
+    logger.info("Model directory contents:")
+    for file in model_path.glob("*"):
+        logger.info(f"  - {file.name} {'(directory)' if file.is_dir() else f'({file.stat().st_size} bytes)'}")
     
     try:
         # Normalize model name to determine its type
         normalized_name = normalize_model_name(model_name)
-        logger.info("Normalized model name from '%s' to '%s'", model_name, normalized_name)
+        logger.info(f"Using normalized model type: '{normalized_name}' for model '{model_name}'")
         
         # Load the model
         try:
             device = "cuda" if torch.cuda.is_available() else "cpu"
             logger.info(f"Using device: {device}")
             
-            # Check model directory contents before loading
-            logger.info(f"Model directory contents: {list(model_path.glob('*'))}")
-            
             # Load model with proper error handling
+            logger.info(f"🔄 LOADING MODEL: {model_name} from {model_path}")
+            
+            try:
+                # Check for config.json
+                config_path = model_path / "config.json"
+                if config_path.exists():
+                    logger.info(f"Found config.json at {config_path}")
+                    with open(config_path, "r") as f:
+                        logger.info(f"Config preview: {f.read()[:200]}...")
+                
+                # Check for pytorch_model.bin
+                model_bin = model_path / "pytorch_model.bin"
+                if model_bin.exists():
+                    logger.info(f"Found pytorch_model.bin at {model_bin} ({model_bin.stat().st_size} bytes)")
+                
+                # Check for pretrained_model_name.txt
+                pretrained_name_file = model_path / "pretrained_model_name.txt"
+                if pretrained_name_file.exists():
+                    with open(pretrained_name_file, "r") as f:
+                        pretrained_model_name = f.read().strip()
+                        logger.info(f"Found pretrained_model_name.txt: {pretrained_model_name}")
+            except Exception as e:
+                logger.warning(f"Error checking model files: {str(e)}")
+            
             model = ModelFactory.from_pretrained(str(model_path), model_name=normalized_name)
             model.to(device)
             model.eval()
+            logger.info(f"✅ MODEL LOADED SUCCESSFULLY: {model.__class__.__name__}")
             
             # Get tokenizer with robust fallback
+            logger.info(f"🔄 LOADING TOKENIZER for {model_name}")
             try:
                 tokenizer = ModelFactory.get_tokenizer_for_model(str(model_path), model_name=normalized_name)
+                logger.info(f"✅ TOKENIZER LOADED SUCCESSFULLY: {tokenizer.__class__.__name__}")
             except Exception as e:
-                logger.warning("Error loading tokenizer via ModelFactory: %s", str(e))
+                logger.warning(f"❌ Error loading tokenizer via ModelFactory: {str(e)}")
                 
                 # Direct fallbacks for specific model types
                 if "RoBERTa" in normalized_name:
@@ -208,6 +264,7 @@ def evaluate_model(
                     )
             
             # Load the dataset
+            logger.info(f"🔄 LOADING DATASET: {split} from {dataset_name}")
             dataloader = get_nli_dataloader(
                 tokenizer=tokenizer,
                 split=split,
@@ -216,14 +273,16 @@ def evaluate_model(
                 dataset_name=dataset_name,
                 shuffle=False,
             )
+            logger.info(f"✅ DATASET LOADED: {len(dataloader)} batches")
             
             # Evaluation
+            logger.info(f"🔄 STARTING EVALUATION on {split}")
             all_logits = []
             all_labels = []
             all_preds = []
             
             with torch.no_grad():
-                for batch in tqdm(dataloader, desc=f"Evaluating {model_name} on {split}"):
+                for batch_idx, batch in enumerate(tqdm(dataloader, desc=f"Evaluating {model_name} on {split}")):
                     input_ids = batch["input_ids"].to(device)
                     attention_mask = batch["attention_mask"].to(device)
                     
@@ -235,6 +294,12 @@ def evaluate_model(
                     
                     # Forward pass with proper error handling
                     try:
+                        # If debug and first batch, log input shape
+                        if debug and batch_idx == 0:
+                            logger.info(f"Input shapes - input_ids: {input_ids.shape}, attention_mask: {attention_mask.shape}")
+                            if token_type_ids is not None:
+                                logger.info(f"token_type_ids shape: {token_type_ids.shape}")
+                                
                         outputs = model(
                             input_ids=input_ids,
                             attention_mask=attention_mask,
@@ -250,14 +315,25 @@ def evaluate_model(
                                     if key in outputs:
                                         logits = outputs[key]
                                         break
+                                        
+                            # Log what we found
+                            logger.info(f"Found logits in output dict with key: {[k for k, v in outputs.items() if v is logits][0] if logits is not None else 'NOT FOUND'}")
+                                
                         elif isinstance(outputs, tuple) and len(outputs) > 0:
                             logits = outputs[0]
+                            logger.info("Found logits as first element in output tuple")
                         else:
                             logits = outputs
+                            logger.info("Using outputs directly as logits")
                             
                         # Ensure logits is a tensor
                         if not isinstance(logits, torch.Tensor):
                             raise ValueError(f"Unexpected logits type: {type(logits)}")
+                            
+                        # Debug first batch logits
+                        if debug and batch_idx == 0:
+                            logger.info(f"Logits shape: {logits.shape}")
+                            logger.info(f"Logits sample (first 2 examples):\n{logits[:2]}")
                             
                         # Get predictions
                         preds = torch.argmax(logits, dim=1)
@@ -268,7 +344,7 @@ def evaluate_model(
                         all_labels.extend(labels.cpu().numpy())
                         
                     except Exception as e:
-                        logger.error(f"Error during model inference: {str(e)}")
+                        logger.error(f"❌ Error during model inference: {str(e)}")
                         raise
             
             # Convert logits list to numpy array
@@ -279,22 +355,35 @@ def evaluate_model(
             # Debug class distribution
             label_counts = np.bincount(all_labels.astype(np.int64), minlength=3)
             pred_counts = np.bincount(all_preds.astype(np.int64), minlength=3)
-            logger.info(f"Label distribution: {label_counts}")
-            logger.info(f"Prediction distribution: {pred_counts}")
+            
+            logger.info("=" * 40)
+            logger.info("EVALUATION STATISTICS")
+            logger.info(f"Total examples: {len(all_labels)}")
+            logger.info(f"Label distribution: {label_counts} (entailment, neutral, contradiction)")
+            logger.info(f"Prediction distribution: {pred_counts} (entailment, neutral, contradiction)")
+            logger.info("=" * 40)
             
             # Check for degenerate predictions (all same class)
             unique_preds = np.unique(all_preds)
             if len(unique_preds) == 1:
                 logger.warning(
-                    f"DEGENERATE PREDICTIONS DETECTED: Model {model_name} is predicting only class {unique_preds[0]}"
+                    f"⚠️ DEGENERATE PREDICTIONS DETECTED: Model {model_name} is predicting only class {unique_preds[0]}"
                 )
                 # Add sample of logits to understand the issue
-                logger.warning(f"Sample of logits: {all_logits[:5]}")
+                logger.warning(f"Sample of logits (first 5 examples):\n{all_logits[:5]}")
+            
+            # Show prediction examples
+            logger.info("Sample predictions (first 10):")
+            for i in range(min(10, len(all_preds))):
+                logger.info(f"  Example {i}: True={all_labels[i]}, Pred={all_preds[i]}, Logits={all_logits[i]}")
             
             # Compute metrics with direct logits instead of dummy logits
+            logger.info("🔄 Computing evaluation metrics")
             metrics = compute_metrics(all_logits, all_labels)
             
             # Log detailed metrics
+            logger.info("=" * 40)
+            logger.info("EVALUATION RESULTS")
             logger.info(
                 "%s on %s: Accuracy=%.4f, F1=%.4f, Precision=%.4f, Recall=%.4f",
                 model_name,
@@ -318,16 +407,15 @@ def evaluate_model(
                     label,
                     metrics[f"f1_{label}"],
                 )
+            logger.info("=" * 40)
             
             return metrics
         except Exception as e:
-            logger.error("Error evaluating %s on %s: %s", model_name, split, str(e))
+            logger.error(f"❌ ERROR EVALUATING {model_name} on {split}: {str(e)}")
             logger.debug("Stack trace:", exc_info=True)
-            # Check if the model directory exists and what files are in it
-            logger.error("Model directory contents: %s", list(model_path.glob("*")))
             return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0, "error": str(e)}
     except Exception as e:
-        logger.error("Error evaluating %s on %s: %s", model_name, split, str(e))
+        logger.error(f"❌ ERROR EVALUATING {model_name} on {split}: {str(e)}")
         logger.debug("Stack trace:", exc_info=True)
         return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0, "error": str(e)}
 
