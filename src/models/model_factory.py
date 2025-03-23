@@ -83,7 +83,7 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError(f"Unknown model type: {model_name} (normalized: {normalized_name})")
+            raise ValueError("Unknown model type: %s (normalized: %s)" % (model_name, normalized_name))
         
         logger.info("Creating model of type %s", normalized_name)
         model_class = cls._models[normalized_name]
@@ -104,7 +104,7 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError(f"Unknown model type: {model_name} (normalized: {normalized_name})")
+            raise ValueError("Unknown model type: %s (normalized: %s)" % (model_name, normalized_name))
         
         return cls._models[normalized_name]
     
@@ -124,7 +124,7 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError(f"Unknown model type: {model_name}")
+            raise ValueError("Unknown model type: %s" % model_name)
         
         logger.info("Loading model of type %s from %s", normalized_name, model_path)
         model_class = cls._models[normalized_name]
