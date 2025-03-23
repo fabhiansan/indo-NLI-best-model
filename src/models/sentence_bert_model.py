@@ -127,6 +127,14 @@ class SentenceBERTForNLI(BaseNLIModel):
         # Save the model
         self.bert.save_pretrained(output_dir)
         
+        # Save the tokenizer
+        try:
+            tokenizer = self.get_tokenizer(self.pretrained_model_name)
+            tokenizer.save_pretrained(output_dir)
+            logger.info("Tokenizer saved successfully to %s", output_dir)
+        except Exception as e:
+            logger.warning("Failed to save tokenizer: %s", str(e))
+        
         # Save classifier weights
         torch.save(
             {

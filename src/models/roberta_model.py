@@ -83,8 +83,17 @@ class RoBERTaForNLI(BaseNLIModel):
         # Save the original pretrained model name
         with open(os.path.join(output_dir, "pretrained_model_name.txt"), "w") as f:
             f.write(self.pretrained_model_name)
-            
+        
+        # Save the model
         self.model.save_pretrained(output_dir)
+        
+        # Save the tokenizer
+        try:
+            tokenizer = self.get_tokenizer(self.pretrained_model_name)
+            tokenizer.save_pretrained(output_dir)
+            logger.info("Tokenizer saved successfully to %s", output_dir)
+        except Exception as e:
+            logger.warning("Failed to save tokenizer: %s", str(e))
     
     @classmethod
     def from_pretrained(cls, model_path: str, config: Optional[Dict] = None, **kwargs):
