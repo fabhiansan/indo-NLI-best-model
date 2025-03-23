@@ -161,6 +161,7 @@ def evaluate_model(
     max_length: int = 128,
     dataset_name: str = "afaji/indonli",
     seed: int = 42,
+    debug: bool = False,
 ) -> Dict[str, float]:
     """Evaluate a model on a specific data split."""
     logger.info("Evaluating %s on %s...", model_name, split)
@@ -172,8 +173,15 @@ def evaluate_model(
         
         # Load the model
         try:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            logger.info(f"Using device: {device}")
+            
+            # Check model directory contents before loading
+            logger.info(f"Model directory contents: {list(model_path.glob('*'))}")
+            
+            # Load model with proper error handling
             model = ModelFactory.from_pretrained(str(model_path), model_name=normalized_name)
-            model.to("cuda" if torch.cuda.is_available() else "cpu")
+            model.to(device)
             model.eval()
             
             # Get tokenizer with robust fallback
@@ -210,36 +218,83 @@ def evaluate_model(
             )
             
             # Evaluation
-            all_preds = []
+            all_logits = []
             all_labels = []
+            all_preds = []
             
             with torch.no_grad():
                 for batch in tqdm(dataloader, desc=f"Evaluating {model_name} on {split}"):
-                    input_ids = batch["input_ids"].to("cuda" if torch.cuda.is_available() else "cpu")
-                    attention_mask = batch["attention_mask"].to("cuda" if torch.cuda.is_available() else "cpu")
+                    input_ids = batch["input_ids"].to(device)
+                    attention_mask = batch["attention_mask"].to(device)
+                    
                     token_type_ids = batch.get("token_type_ids", None)
                     if token_type_ids is not None:
-                        token_type_ids = token_type_ids.to("cuda" if torch.cuda.is_available() else "cpu")
-                    labels = batch["labels"].to("cuda" if torch.cuda.is_available() else "cpu")
+                        token_type_ids = token_type_ids.to(device)
                     
-                    outputs = model(
-                        input_ids=input_ids,
-                        attention_mask=attention_mask,
-                        token_type_ids=token_type_ids,
-                    )
+                    labels = batch["labels"].to(device)
                     
-                    logits = outputs["logits"] if isinstance(outputs, dict) else outputs[0]
-                    preds = torch.argmax(logits, dim=1)
-                    
-                    all_preds.extend(preds.cpu().numpy())
-                    all_labels.extend(labels.cpu().numpy())
+                    # Forward pass with proper error handling
+                    try:
+                        outputs = model(
+                            input_ids=input_ids,
+                            attention_mask=attention_mask,
+                            token_type_ids=token_type_ids if token_type_ids is not None else None,
+                        )
+                        
+                        # Extract logits correctly based on model output type
+                        if isinstance(outputs, dict):
+                            logits = outputs.get("logits", None)
+                            if logits is None:
+                                # Try other common keys
+                                for key in ["scores", "predictions", "output"]:
+                                    if key in outputs:
+                                        logits = outputs[key]
+                                        break
+                        elif isinstance(outputs, tuple) and len(outputs) > 0:
+                            logits = outputs[0]
+                        else:
+                            logits = outputs
+                            
+                        # Ensure logits is a tensor
+                        if not isinstance(logits, torch.Tensor):
+                            raise ValueError(f"Unexpected logits type: {type(logits)}")
+                            
+                        # Get predictions
+                        preds = torch.argmax(logits, dim=1)
+                        
+                        # Add to all results
+                        all_logits.append(logits.cpu().numpy())
+                        all_preds.extend(preds.cpu().numpy())
+                        all_labels.extend(labels.cpu().numpy())
+                        
+                    except Exception as e:
+                        logger.error(f"Error during model inference: {str(e)}")
+                        raise
             
-            # Compute metrics
-            dummy_logits = np.zeros((len(all_preds), 3))
-            for i, pred in enumerate(all_preds):
-                dummy_logits[i, pred] = 1
+            # Convert logits list to numpy array
+            all_logits = np.vstack(all_logits)
+            all_labels = np.array(all_labels)
+            all_preds = np.array(all_preds)
             
-            metrics = compute_metrics(dummy_logits, all_labels)
+            # Debug class distribution
+            label_counts = np.bincount(all_labels.astype(np.int64), minlength=3)
+            pred_counts = np.bincount(all_preds.astype(np.int64), minlength=3)
+            logger.info(f"Label distribution: {label_counts}")
+            logger.info(f"Prediction distribution: {pred_counts}")
+            
+            # Check for degenerate predictions (all same class)
+            unique_preds = np.unique(all_preds)
+            if len(unique_preds) == 1:
+                logger.warning(
+                    f"DEGENERATE PREDICTIONS DETECTED: Model {model_name} is predicting only class {unique_preds[0]}"
+                )
+                # Add sample of logits to understand the issue
+                logger.warning(f"Sample of logits: {all_logits[:5]}")
+            
+            # Compute metrics with direct logits instead of dummy logits
+            metrics = compute_metrics(all_logits, all_labels)
+            
+            # Log detailed metrics
             logger.info(
                 "%s on %s: Accuracy=%.4f, F1=%.4f, Precision=%.4f, Recall=%.4f",
                 model_name,
@@ -250,19 +305,31 @@ def evaluate_model(
                 metrics["recall"],
             )
             
+            # For the 3 classes, print per-class metrics
+            for label in ["entailment", "neutral", "contradiction"]:
+                logger.info(
+                    "%s on %s: Precision_%s=%.4f, Recall_%s=%.4f, F1_%s=%.4f",
+                    model_name,
+                    split,
+                    label,
+                    metrics[f"precision_{label}"],
+                    label,
+                    metrics[f"recall_{label}"],
+                    label,
+                    metrics[f"f1_{label}"],
+                )
+            
             return metrics
         except Exception as e:
             logger.error("Error evaluating %s on %s: %s", model_name, split, str(e))
             logger.debug("Stack trace:", exc_info=True)
             # Check if the model directory exists and what files are in it
             logger.error("Model directory contents: %s", list(model_path.glob("*")))
-            return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0}
+            return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0, "error": str(e)}
     except Exception as e:
         logger.error("Error evaluating %s on %s: %s", model_name, split, str(e))
         logger.debug("Stack trace:", exc_info=True)
-        # Check if the model directory exists and what files are in it
-        logger.error("Model directory contents: %s", list(model_path.glob("*")))
-        return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0}
+        return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0, "error": str(e)}
 
 
 def benchmark_models(
@@ -274,7 +341,8 @@ def benchmark_models(
     dataset_name: str = "afaji/indonli",
     seed: int = 42,
     recursive: bool = True,
-) -> Dict[str, Dict[str, Dict[str, float]]]:
+    debug_mode: bool = False,
+):
     """
     Benchmark multiple models on multiple dataset splits and collect results.
     
@@ -287,6 +355,7 @@ def benchmark_models(
         dataset_name: HuggingFace dataset name
         seed: Random seed
         recursive: Whether to search for models recursively
+        debug_mode: Enable debug mode for model evaluation
         
     Returns:
         Nested dictionary of results: {model_name: {split: {metric: value}}}
@@ -319,6 +388,8 @@ def benchmark_models(
                     batch_size=batch_size,
                     max_length=max_length,
                     dataset_name=dataset_name,
+                    seed=seed,
+                    debug=debug_mode,
                 )
                 
                 results[model_name][split] = metrics
@@ -486,6 +557,12 @@ def parse_args() -> argparse.Namespace:
         help="Debug checkpoint discovery without evaluation",
     )
     
+    parser.add_argument(
+        "--debug_mode",
+        action="store_true",
+        help="Enable debug mode for model evaluation",
+    )
+    
     return parser.parse_args()
 
 
@@ -538,6 +615,7 @@ def main() -> None:
         dataset_name=args.dataset_name,
         seed=args.seed,
         recursive=not args.no_recursive,
+        debug_mode=args.debug_mode,
     )
     
     # Create a README file with summary information

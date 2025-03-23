@@ -1,7 +1,0 @@
-{
-  "accuracy": 0.0,
-  "f1": 0.0,
-  "precision": 0.0,
-  "recall": 0.0,
-  "error": "Unknown model type: indo-roberta-base-epoch-5"
-}
