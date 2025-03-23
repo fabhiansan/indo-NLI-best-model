@@ -79,8 +79,8 @@ class NLITrainer:
         self.training_history = {"loss": [], "eval_metrics": []}
     
     def _init_optimizer_and_scheduler(self):
-        """Initialize optimizer and learning rate scheduler."""
-        # Prepare optimizer
+        """Initialize optimizer and scheduler."""
+        # Prepare optimizer grouped parameters for weight decay
         no_decay = ["bias", "LayerNorm.weight"]
         optimizer_grouped_parameters = [
             {
@@ -93,7 +93,9 @@ class NLITrainer:
             },
         ]
         
-        self.optimizer = AdamW(optimizer_grouped_parameters, lr=self.learning_rate)
+        # Ensure learning_rate is a float
+        learning_rate = float(self.learning_rate)
+        self.optimizer = AdamW(optimizer_grouped_parameters, lr=learning_rate)
         
         # Prepare scheduler
         total_steps = len(self.train_dataloader) * self.num_epochs // self.gradient_accumulation_steps

@@ -42,7 +42,7 @@ class ModelFactory:
         if model_name not in cls._models:
             raise ValueError(f"Unknown model type: {model_name}")
         
-        logger.info(f"Creating model of type {model_name}")
+        logger.info("Creating model of type %s", model_name)
         model_class = cls._models[model_name]
         
         return model_class(config, num_labels=num_labels, **kwargs)
@@ -89,7 +89,7 @@ class ModelFactory:
         if model_name not in cls._models:
             raise ValueError(f"Unknown model type: {model_name}")
         
-        logger.info(f"Loading model of type {model_name} from {model_path}")
+        logger.info("Loading model of type %s from %s", model_name, model_path)
         model_class = cls._models[model_name]
         
         return model_class.from_pretrained(model_path, config, **kwargs)
