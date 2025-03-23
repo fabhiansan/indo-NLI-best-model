@@ -1,0 +1,31 @@
+model:
+  name: "Indo-roBERTa-base"
+  pretrained_model_name: "flax-community/indonesian-roberta-base"
+  max_seq_length: 128
+  output_hidden_states: False
+
+training:
+  batch_size: 16
+  learning_rate: 2e-5
+  num_epochs: 5
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  gradient_accumulation_steps: 1
+  seed: 42
+  save_steps: 500
+  eval_steps: 500
+  logging_steps: 100
+  disable_tqdm: False
+  fp16: True
+
+data:
+  dataset_name: "afaji/indonli"
+  train_split: "train"
+  validation_split: "validation"
+  test_splits: ["test_lay", "test_expert"]
+  num_workers: 4
+
+output:
+  output_dir: "./models/indo-roberta-base"
+  logging_dir: "./logs/indo-roberta-base"
+  report_dir: "./reports/indo-roberta-base"
