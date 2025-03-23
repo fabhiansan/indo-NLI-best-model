@@ -81,21 +81,18 @@ def main():
     config = None
     if args.config:
         config = load_config(args.config)
-        logger.info(f"Loaded configuration from {args.config}")
+        logger.info("Loaded configuration from %s" % args.config)
     
     # Load model
-    logger.info(f"Loading model from {args.model_path}")
+    logger.info("Loading model from %s", args.model_path)
     model = ModelFactory.from_pretrained(args.model_path, model_name=args.model_name, config=config)
     model.to(device)
     
-    # Get tokenizer
-    if config:
-        tokenizer = model.get_tokenizer(config["model"]["pretrained_model_name"])
-    else:
-        tokenizer = model.get_tokenizer(args.model_path)
+    # Get tokenizer - use the new robust tokenizer loader
+    tokenizer = ModelFactory.get_tokenizer_for_model(args.model_path, args.model_name)
     
     # Load test dataset
-    logger.info(f"Loading test dataset: {args.test_set}")
+    logger.info("Loading test dataset: %s", args.test_set)
     test_dataloader = get_nli_dataloader(
         tokenizer=tokenizer,
         split=args.test_set,

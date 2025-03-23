@@ -2,6 +2,7 @@
 Model factory for NLI models.
 """
 import logging
+import os
 from typing import Dict, Optional, Type
 
 from src.models.base_model import BaseNLIModel
@@ -130,3 +131,68 @@ class ModelFactory:
         model_class = cls._models[normalized_name]
         
         return model_class.from_pretrained(model_path, config, **kwargs)
+    
+    @classmethod
+    def get_tokenizer_for_model(cls, model_path: str, model_name: str, **kwargs):
+        """
+        Get the appropriate tokenizer for a model, using heuristics to find the right pretrained model.
+        
+        Args:
+            model_path: Path to the model directory
+            model_name: Name of the model type
+            
+        Returns:
+            Appropriate tokenizer for the model
+        """
+        normalized_name = cls._normalize_model_name(model_name)
+        
+        if normalized_name not in cls._models:
+            raise ValueError("Unknown model type: %s" % model_name)
+        
+        # Get the model class
+        model_class = cls._models[normalized_name]
+        
+        # Standard pretrained models for different model types
+        default_models = {
+            "Indo-roBERTa": "indolem/indobert-base-uncased",
+            "Indo-roBERTa-base": "indolem/indobert-base-uncased",
+            "Sentence-BERT": "firqaaa/indo-sentence-bert-base",
+            "Sentence-BERT-Simple": "firqaaa/indo-sentence-bert-base",
+            "Sentence-BERT-Proper": "firqaaa/indo-sentence-bert-base",
+        }
+        
+        # Check for stored pretrained model name
+        pretrained_model_name_path = os.path.join(model_path, "pretrained_model_name.txt")
+        if os.path.exists(pretrained_model_name_path):
+            with open(pretrained_model_name_path, "r") as f:
+                original_model_name = f.read().strip()
+                logger.info("Found stored pretrained model name: %s", original_model_name)
+                try:
+                    from transformers import AutoTokenizer
+                    return AutoTokenizer.from_pretrained(original_model_name, **kwargs)
+                except Exception as e:
+                    logger.warning("Failed to load tokenizer from %s: %s", original_model_name, str(e))
+        
+        # Try to deduce from model path
+        for key, default_model in default_models.items():
+            if key.lower().replace("-", "").replace("_", "") in model_path.lower().replace("-", "").replace("_", ""):
+                logger.info("Using default model for %s: %s", key, default_model)
+                try:
+                    from transformers import AutoTokenizer
+                    return AutoTokenizer.from_pretrained(default_model, **kwargs)
+                except Exception as e:
+                    logger.warning("Failed to load tokenizer from %s: %s", default_model, str(e))
+        
+        # Use the default model for this type as fallback
+        default_model = default_models.get(normalized_name)
+        if default_model:
+            logger.info("Using fallback default model: %s", default_model)
+            try:
+                from transformers import AutoTokenizer
+                return AutoTokenizer.from_pretrained(default_model, **kwargs)
+            except Exception:
+                pass
+                
+        # Last resort - try to get tokenizer directly from model class
+        logger.warning("Using model class get_tokenizer as last resort")
+        return model_class.get_tokenizer(model_path, **kwargs)
