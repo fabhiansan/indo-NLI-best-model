@@ -1,0 +1,15 @@
+{
+  "accuracy": 0.7069513857337574,
+  "precision": 0.7154914412043386,
+  "recall": 0.7045763471668419,
+  "f1": 0.7045498642347144,
+  "precision_entailment": 0.6733615221987315,
+  "recall_entailment": 0.7883663366336634,
+  "f1_entailment": 0.7263397947548461,
+  "precision_neutral": 0.6586102719033232,
+  "recall_neutral": 0.6931637519872814,
+  "f1_neutral": 0.675445391169636,
+  "precision_contradiction": 0.8145025295109612,
+  "recall_contradiction": 0.6321989528795812,
+  "f1_contradiction": 0.711864406779661
+}

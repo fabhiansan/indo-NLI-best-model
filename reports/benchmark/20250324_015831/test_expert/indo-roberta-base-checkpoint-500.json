@@ -1,0 +1,7 @@
+{
+  "accuracy": 0.0,
+  "f1": 0.0,
+  "precision": 0.0,
+  "recall": 0.0,
+  "error": "No pretrained_model_name.txt found at models/indo-roberta-base/checkpoint-500/pretrained_model_name.txt. Cannot load model."
+}
