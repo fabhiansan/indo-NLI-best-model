@@ -1,0 +1,23 @@
+2025-03-23 21:43:46,872 - root - INFO - Configuration: {'model': {'name': 'Sentence-BERT', 'pretrained_model_name': 'firqaaa/indo-sentence-bert-base', 'max_seq_length': 128, 'output_hidden_states': False}, 'training': {'batch_size': 16, 'learning_rate': '2e-5', 'num_epochs': 5, 'warmup_ratio': 0.1, 'weight_decay': 0.01, 'gradient_accumulation_steps': 1, 'seed': 42, 'save_steps': 500, 'eval_steps': 500, 'logging_steps': 100, 'disable_tqdm': False, 'fp16': True}, 'data': {'dataset_name': 'afaji/indonli', 'train_split': 'train', 'validation_split': 'validation', 'test_splits': ['test_lay', 'test_expert'], 'num_workers': 4}, 'output': {'output_dir': '/home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert', 'logging_dir': '/home/jupyter-23522029/indo-NLI-best-model/logs/sentence-bert', 'report_dir': '/home/jupyter-23522029/indo-NLI-best-model/reports/sentence-bert'}}
+2025-03-23 21:43:46,956 - root - INFO - System information:
+2025-03-23 21:43:46,956 - root - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 21:43:46,956 - root - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 21:43:46,956 - root - INFO - CUDA available: Yes
+2025-03-23 21:43:46,956 - root - INFO - CUDA version: 12.4
+2025-03-23 21:43:47,000 - root - INFO - Number of GPUs: 1
+2025-03-23 21:43:47,009 - root - INFO - Current GPU: 0
+2025-03-23 21:43:47,009 - root - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 21:43:47,009 - root - INFO - Using device: cuda
+2025-03-23 21:43:47,009 - root - INFO - Creating model
+2025-03-23 21:43:47,010 - src.models.model_factory - INFO - Creating model of type Sentence-BERT
+2025-03-23 21:43:47,010 - src.models.sentence_bert_model - INFO - Loading Sentence-BERT model from firqaaa/indo-sentence-bert-base
+2025-03-23 21:43:48,951 - root - INFO - Loading datasets
+2025-03-23 21:43:48,951 - src.data.dataset - INFO - Loading IndoNLI dataset (train split)...
+2025-03-23 21:43:51,344 - src.data.dataset - INFO - Loaded 10330 examples from train split
+2025-03-23 21:43:51,345 - src.data.dataset - INFO - Loading IndoNLI dataset (validation split)...
+2025-03-23 21:43:52,726 - src.data.dataset - INFO - Loaded 2197 examples from validation split
+2025-03-23 21:43:52,726 - root - INFO - Creating trainer
+2025-03-23 21:43:52,726 - src.training.trainer - INFO - Using device: cuda
+2025-03-23 21:43:52,735 - root - INFO - Starting training
+2025-03-23 21:43:52,735 - src.training.trainer - INFO - Starting training
+2025-03-23 21:43:52,737 - src.training.trainer - INFO - Epoch 1/5

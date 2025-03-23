@@ -1,0 +1,48 @@
+2025-03-23 22:29:04,936 - INFO - Arguments: Namespace(model_path='models/indo-roberta/final', model_name='indo_roberta', config=None, test_set='test_expert', batch_size=16, seed=42, output_dir=None)
+2025-03-23 22:29:05,031 - INFO - System information:
+2025-03-23 22:29:05,031 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:29:05,031 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:29:05,032 - INFO - CUDA available: Yes
+2025-03-23 22:29:05,032 - INFO - CUDA version: 12.4
+2025-03-23 22:29:05,076 - INFO - Number of GPUs: 1
+2025-03-23 22:29:05,085 - INFO - Current GPU: 0
+2025-03-23 22:29:05,085 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:29:05,085 - INFO - Using device: cuda
+2025-03-23 22:29:05,085 - INFO - Loading model from models/indo-roberta/final
+2025-03-23 22:29:05,086 - INFO - Loading model of type Indo-roBERTa from models/indo-roberta/final
+2025-03-23 22:29:05,086 - INFO - Found stored pretrained model name: cahya/roberta-base-indonesian-1.5G
+2025-03-23 22:29:05,086 - INFO - Loading RoBERTa model from cahya/roberta-base-indonesian-1.5G
+Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at cahya/roberta-base-indonesian-1.5G and are newly initialized: ['classifier.dense.bias', 'classifier.dense.weight', 'classifier.out_proj.bias', 'classifier.out_proj.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2025-03-23 22:29:06,775 - INFO - Found stored pretrained model name: cahya/roberta-base-indonesian-1.5G
+2025-03-23 22:29:07,232 - INFO - Loading test dataset: test_expert
+2025-03-23 22:29:07,232 - INFO - Loading IndoNLI dataset (test_expert split)...
+2025-03-23 22:29:09,573 - INFO - Loaded 2984 examples from test_expert split
+2025-03-23 22:29:09,574 - INFO - Starting evaluation
+2025-03-23 22:29:16,416 - INFO - Evaluation results:
+2025-03-23 22:29:16,417 - INFO - accuracy: 0.3488605898123324
+2025-03-23 22:29:16,417 - INFO - precision: 0.11628686327077747
+2025-03-23 22:29:16,417 - INFO - recall: 0.3333333333333333
+2025-03-23 22:29:16,417 - INFO - f1: 0.17242236024844723
+2025-03-23 22:29:16,417 - INFO - precision_entailment: 0.3488605898123324
+2025-03-23 22:29:16,417 - INFO - recall_entailment: 1.0
+2025-03-23 22:29:16,417 - INFO - f1_entailment: 0.5172670807453417
+2025-03-23 22:29:16,417 - INFO - precision_neutral: 0.0
+2025-03-23 22:29:16,418 - INFO - recall_neutral: 0.0
+2025-03-23 22:29:16,418 - INFO - f1_neutral: 0.0
+2025-03-23 22:29:16,418 - INFO - precision_contradiction: 0.0
+2025-03-23 22:29:16,418 - INFO - recall_contradiction: 0.0
+2025-03-23 22:29:16,418 - INFO - f1_contradiction: 0.0
+2025-03-23 22:29:16,418 - INFO - Generating confusion matrix
+2025-03-23 22:29:16,658 - INFO - Generating classification report
+/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+2025-03-23 22:29:16,667 - INFO - Saving metrics to CSV
+2025-03-23 22:29:16,671 - INFO - Metrics saved to models/indo-roberta/final/evaluation_test_expert/metrics.csv
+2025-03-23 22:29:16,671 - INFO - Saving predictions to CSV
+2025-03-23 22:29:16,676 - INFO - Predictions saved to models/indo-roberta/final/evaluation_test_expert/predictions.csv
+2025-03-23 22:29:16,676 - INFO - Evaluation completed. Results saved to models/indo-roberta/final/evaluation_test_expert

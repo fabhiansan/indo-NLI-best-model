@@ -1,0 +1,40 @@
+2025-03-23 22:31:43,658 - INFO - Arguments: Namespace(model_path='models/sentence-bert-proper/final', model_name='sentence_bert_proper', config=None, test_set='test_lay', batch_size=16, seed=42, output_dir=None)
+2025-03-23 22:31:43,745 - INFO - System information:
+2025-03-23 22:31:43,745 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:31:43,745 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:31:43,745 - INFO - CUDA available: Yes
+2025-03-23 22:31:43,745 - INFO - CUDA version: 12.4
+2025-03-23 22:31:43,786 - INFO - Number of GPUs: 1
+2025-03-23 22:31:43,796 - INFO - Current GPU: 0
+2025-03-23 22:31:43,797 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:31:43,798 - INFO - Using device: cuda
+2025-03-23 22:31:43,798 - INFO - Loading model from models/sentence-bert-proper/final
+2025-03-23 22:31:43,799 - INFO - Loading model of type Sentence-BERT-Proper from models/sentence-bert-proper/final
+2025-03-23 22:31:43,799 - INFO - Found stored pretrained model name: firqaaa/indo-sentence-bert-base
+2025-03-23 22:31:43,800 - INFO - Loading Sentence-BERT model from firqaaa/indo-sentence-bert-base
+2025-03-23 22:31:45,580 - INFO - Found stored pretrained model name: firqaaa/indo-sentence-bert-base
+2025-03-23 22:31:45,906 - INFO - Loading test dataset: test_lay
+2025-03-23 22:31:45,907 - INFO - Loading IndoNLI dataset (test_lay split)...
+2025-03-23 22:31:48,645 - INFO - Loaded 2201 examples from test_lay split
+2025-03-23 22:31:48,646 - INFO - Starting evaluation
+2025-03-23 22:31:54,108 - INFO - Evaluation results:
+2025-03-23 22:31:54,109 - INFO - accuracy: 0.3375738300772376
+2025-03-23 22:31:54,109 - INFO - precision: 0.3772082772424301
+2025-03-23 22:31:54,109 - INFO - recall: 0.35727691331798095
+2025-03-23 22:31:54,109 - INFO - f1: 0.3217983936643594
+2025-03-23 22:31:54,109 - INFO - precision_entailment: 0.4575645756457565
+2025-03-23 22:31:54,110 - INFO - recall_entailment: 0.15346534653465346
+2025-03-23 22:31:54,110 - INFO - f1_entailment: 0.22984244670991658
+2025-03-23 22:31:54,110 - INFO - precision_neutral: 0.29233105542900534
+2025-03-23 22:31:54,110 - INFO - recall_neutral: 0.6120826709062003
+2025-03-23 22:31:54,110 - INFO - f1_neutral: 0.39568345323741005
+2025-03-23 22:31:54,110 - INFO - precision_contradiction: 0.3817292006525285
+2025-03-23 22:31:54,110 - INFO - recall_contradiction: 0.306282722513089
+2025-03-23 22:31:54,110 - INFO - f1_contradiction: 0.33986928104575165
+2025-03-23 22:31:54,110 - INFO - Generating confusion matrix
+2025-03-23 22:31:54,386 - INFO - Generating classification report
+2025-03-23 22:31:54,397 - INFO - Saving metrics to CSV
+2025-03-23 22:31:54,403 - INFO - Metrics saved to models/sentence-bert-proper/final/evaluation_test_lay/metrics.csv
+2025-03-23 22:31:54,403 - INFO - Saving predictions to CSV
+2025-03-23 22:31:54,409 - INFO - Predictions saved to models/sentence-bert-proper/final/evaluation_test_lay/predictions.csv
+2025-03-23 22:31:54,409 - INFO - Evaluation completed. Results saved to models/sentence-bert-proper/final/evaluation_test_lay

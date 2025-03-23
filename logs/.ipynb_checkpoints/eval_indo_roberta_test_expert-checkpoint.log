@@ -1,0 +1,25 @@
+2025-03-23 21:59:43,052 - INFO - Arguments: Namespace(model_path='models/indo-roberta/final', model_name='indo_roberta', config=None, test_set='test_expert', batch_size=16, seed=42, output_dir=None)
+2025-03-23 21:59:43,142 - INFO - System information:
+2025-03-23 21:59:43,143 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 21:59:43,143 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 21:59:43,143 - INFO - CUDA available: Yes
+2025-03-23 21:59:43,143 - INFO - CUDA version: 12.4
+2025-03-23 21:59:43,184 - INFO - Number of GPUs: 1
+2025-03-23 21:59:43,193 - INFO - Current GPU: 0
+2025-03-23 21:59:43,193 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 21:59:43,194 - INFO - Using device: cuda
+2025-03-23 21:59:43,194 - INFO - Loading model from models/indo-roberta/final
+2025-03-23 21:59:43,194 - INFO - Loading model of type Indo-roBERTa from models/indo-roberta/final
+2025-03-23 21:59:43,194 - INFO - Loading RoBERTa model from models/indo-roberta/final
+Traceback (most recent call last):
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/evaluate.py", line 183, in <module>
+    main()
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/evaluate.py", line 95, in main
+    tokenizer = model.get_tokenizer(args.model_path)
+  File "/home/jupyter-23522029/indo-NLI-best-model/src/models/roberta_model.py", line 118, in get_tokenizer
+    return AutoTokenizer.from_pretrained(pretrained_model_name, **kwargs)
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py", line 992, in from_pretrained
+    return tokenizer_class_fast.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 2046, in from_pretrained
+    raise EnvironmentError(
+OSError: Can't load tokenizer for 'models/indo-roberta/final'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'models/indo-roberta/final' is the correct path to a directory containing all relevant files for a RobertaTokenizerFast tokenizer.

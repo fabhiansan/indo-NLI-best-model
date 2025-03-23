@@ -1,0 +1,19 @@
+2025-03-23 21:50:44,667 - INFO - Arguments: Namespace(model_path='models/indo-roberta-base/best', model_name='indo_roberta_base', config=None, test_set='test_expert', batch_size=16, seed=42, output_dir=None)
+2025-03-23 21:50:44,748 - INFO - System information:
+2025-03-23 21:50:44,748 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 21:50:44,748 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 21:50:44,748 - INFO - CUDA available: Yes
+2025-03-23 21:50:44,748 - INFO - CUDA version: 12.4
+2025-03-23 21:50:44,788 - INFO - Number of GPUs: 1
+2025-03-23 21:50:44,797 - INFO - Current GPU: 0
+2025-03-23 21:50:44,797 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 21:50:44,798 - INFO - Using device: cuda
+2025-03-23 21:50:44,798 - INFO - Loading model from models/indo-roberta-base/best
+Traceback (most recent call last):
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/evaluate.py", line 183, in <module>
+    main()
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/evaluate.py", line 88, in main
+    model = ModelFactory.from_pretrained(args.model_path, model_name=args.model_name, config=config)
+  File "/home/jupyter-23522029/indo-NLI-best-model/src/models/model_factory.py", line 90, in from_pretrained
+    raise ValueError(f"Unknown model type: {model_name}")
+ValueError: Unknown model type: indo_roberta_base

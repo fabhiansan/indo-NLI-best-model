@@ -1,0 +1,48 @@
+2025-03-23 22:28:45,797 - INFO - Arguments: Namespace(model_path='models/indo-roberta/final', model_name='indo_roberta', config=None, test_set='test_lay', batch_size=16, seed=42, output_dir=None)
+2025-03-23 22:28:45,886 - INFO - System information:
+2025-03-23 22:28:45,886 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:28:45,886 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:28:45,886 - INFO - CUDA available: Yes
+2025-03-23 22:28:45,886 - INFO - CUDA version: 12.4
+2025-03-23 22:28:45,927 - INFO - Number of GPUs: 1
+2025-03-23 22:28:45,934 - INFO - Current GPU: 0
+2025-03-23 22:28:45,935 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:28:45,935 - INFO - Using device: cuda
+2025-03-23 22:28:45,935 - INFO - Loading model from models/indo-roberta/final
+2025-03-23 22:28:45,935 - INFO - Loading model of type Indo-roBERTa from models/indo-roberta/final
+2025-03-23 22:28:45,936 - INFO - Found stored pretrained model name: cahya/roberta-base-indonesian-1.5G
+2025-03-23 22:28:45,936 - INFO - Loading RoBERTa model from cahya/roberta-base-indonesian-1.5G
+Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at cahya/roberta-base-indonesian-1.5G and are newly initialized: ['classifier.dense.bias', 'classifier.dense.weight', 'classifier.out_proj.bias', 'classifier.out_proj.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2025-03-23 22:28:48,469 - INFO - Found stored pretrained model name: cahya/roberta-base-indonesian-1.5G
+2025-03-23 22:28:49,369 - INFO - Loading test dataset: test_lay
+2025-03-23 22:28:49,369 - INFO - Loading IndoNLI dataset (test_lay split)...
+2025-03-23 22:28:52,206 - INFO - Loaded 2201 examples from test_lay split
+2025-03-23 22:28:52,206 - INFO - Starting evaluation
+2025-03-23 22:28:57,433 - INFO - Evaluation results:
+2025-03-23 22:28:57,433 - INFO - accuracy: 0.3671058609722853
+2025-03-23 22:28:57,433 - INFO - precision: 0.12236862032409511
+2025-03-23 22:28:57,433 - INFO - recall: 0.3333333333333333
+2025-03-23 22:28:57,433 - INFO - f1: 0.1790185000553894
+2025-03-23 22:28:57,433 - INFO - precision_entailment: 0.3671058609722853
+2025-03-23 22:28:57,434 - INFO - recall_entailment: 1.0
+2025-03-23 22:28:57,434 - INFO - f1_entailment: 0.5370555001661682
+2025-03-23 22:28:57,434 - INFO - precision_neutral: 0.0
+2025-03-23 22:28:57,434 - INFO - recall_neutral: 0.0
+2025-03-23 22:28:57,434 - INFO - f1_neutral: 0.0
+2025-03-23 22:28:57,434 - INFO - precision_contradiction: 0.0
+2025-03-23 22:28:57,434 - INFO - recall_contradiction: 0.0
+2025-03-23 22:28:57,434 - INFO - f1_contradiction: 0.0
+2025-03-23 22:28:57,434 - INFO - Generating confusion matrix
+2025-03-23 22:28:57,689 - INFO - Generating classification report
+/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+2025-03-23 22:28:57,701 - INFO - Saving metrics to CSV
+2025-03-23 22:28:57,705 - INFO - Metrics saved to models/indo-roberta/final/evaluation_test_lay/metrics.csv
+2025-03-23 22:28:57,705 - INFO - Saving predictions to CSV
+2025-03-23 22:28:57,710 - INFO - Predictions saved to models/indo-roberta/final/evaluation_test_lay/predictions.csv
+2025-03-23 22:28:57,710 - INFO - Evaluation completed. Results saved to models/indo-roberta/final/evaluation_test_lay

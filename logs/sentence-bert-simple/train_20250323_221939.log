@@ -1,0 +1,26 @@
+2025-03-23 22:19:39,519 - root - INFO - Configuration: {'model': {'name': 'Sentence-BERT-Simple', 'pretrained_model_name': 'firqaaa/indo-sentence-bert-base', 'max_seq_length': 128, 'output_hidden_states': True, 'classifier_type': 'simple', 'hidden_dropout_prob': 0.1, 'classifier_dropout': 0.1}, 'training': {'batch_size': 128, 'learning_rate': '2e-5', 'num_epochs': 5, 'warmup_ratio': 0.1, 'weight_decay': 0.01, 'gradient_accumulation_steps': 1, 'seed': 42, 'save_steps': 500, 'eval_steps': 500, 'logging_steps': 100, 'disable_tqdm': False, 'fp16': True}, 'data': {'dataset_name': 'afaji/indonli', 'train_split': 'train', 'validation_split': 'validation', 'test_splits': ['test_lay', 'test_expert'], 'num_workers': 4}, 'output': {'output_dir': '/home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert-simple', 'logging_dir': '/home/jupyter-23522029/indo-NLI-best-model/logs/sentence-bert-simple', 'report_dir': '/home/jupyter-23522029/indo-NLI-best-model/reports/sentence-bert-simple'}}
+2025-03-23 22:19:39,608 - root - INFO - System information:
+2025-03-23 22:19:39,609 - root - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:19:39,609 - root - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:19:39,609 - root - INFO - CUDA available: Yes
+2025-03-23 22:19:39,609 - root - INFO - CUDA version: 12.4
+2025-03-23 22:19:39,649 - root - INFO - Number of GPUs: 1
+2025-03-23 22:19:39,658 - root - INFO - Current GPU: 0
+2025-03-23 22:19:39,658 - root - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:19:39,659 - root - INFO - Using device: cuda
+2025-03-23 22:19:39,659 - root - INFO - Creating model
+2025-03-23 22:19:39,659 - src.models.model_factory - INFO - Creating model of type Sentence-BERT-Simple
+2025-03-23 22:19:39,660 - src.models.sentence_bert_model - INFO - Loading Sentence-BERT model from firqaaa/indo-sentence-bert-base
+2025-03-23 22:19:41,276 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:19:41,584 - root - INFO - Loading datasets
+2025-03-23 22:19:41,584 - src.data.dataset - INFO - Loading IndoNLI dataset (train split)...
+2025-03-23 22:19:44,150 - src.data.dataset - INFO - Loaded 10330 examples from train split
+2025-03-23 22:19:44,150 - src.data.dataset - INFO - Loading IndoNLI dataset (validation split)...
+2025-03-23 22:19:46,007 - src.data.dataset - INFO - Loaded 2197 examples from validation split
+2025-03-23 22:19:46,008 - root - INFO - Creating trainer
+2025-03-23 22:19:46,008 - src.training.trainer - INFO - Using device: cuda
+2025-03-23 22:19:46,012 - root - INFO - Starting training
+2025-03-23 22:19:46,012 - src.training.trainer - INFO - Starting training
+2025-03-23 22:19:46,014 - src.training.trainer - INFO - Epoch 1/5
+2025-03-23 22:20:04,812 - src.training.trainer - INFO - Epoch 1 completed. Average loss: 1.0131
+2025-03-23 22:20:04,812 - src.training.trainer - INFO - Running evaluation

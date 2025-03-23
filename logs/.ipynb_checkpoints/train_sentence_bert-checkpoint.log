@@ -1,0 +1,55 @@
+2025-03-23 21:43:46,872 - INFO - Configuration: {'model': {'name': 'Sentence-BERT', 'pretrained_model_name': 'firqaaa/indo-sentence-bert-base', 'max_seq_length': 128, 'output_hidden_states': False}, 'training': {'batch_size': 16, 'learning_rate': '2e-5', 'num_epochs': 5, 'warmup_ratio': 0.1, 'weight_decay': 0.01, 'gradient_accumulation_steps': 1, 'seed': 42, 'save_steps': 500, 'eval_steps': 500, 'logging_steps': 100, 'disable_tqdm': False, 'fp16': True}, 'data': {'dataset_name': 'afaji/indonli', 'train_split': 'train', 'validation_split': 'validation', 'test_splits': ['test_lay', 'test_expert'], 'num_workers': 4}, 'output': {'output_dir': '/home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert', 'logging_dir': '/home/jupyter-23522029/indo-NLI-best-model/logs/sentence-bert', 'report_dir': '/home/jupyter-23522029/indo-NLI-best-model/reports/sentence-bert'}}
+2025-03-23 21:43:46,956 - INFO - System information:
+2025-03-23 21:43:46,956 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 21:43:46,956 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 21:43:46,956 - INFO - CUDA available: Yes
+2025-03-23 21:43:46,956 - INFO - CUDA version: 12.4
+2025-03-23 21:43:47,000 - INFO - Number of GPUs: 1
+2025-03-23 21:43:47,009 - INFO - Current GPU: 0
+2025-03-23 21:43:47,009 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 21:43:47,009 - INFO - Using device: cuda
+2025-03-23 21:43:47,009 - INFO - Creating model
+2025-03-23 21:43:47,010 - INFO - Creating model of type Sentence-BERT
+2025-03-23 21:43:47,010 - INFO - Loading Sentence-BERT model from firqaaa/indo-sentence-bert-base
+2025-03-23 21:43:48,951 - INFO - Loading datasets
+2025-03-23 21:43:48,951 - INFO - Loading IndoNLI dataset (train split)...
+2025-03-23 21:43:51,344 - INFO - Loaded 10330 examples from train split
+2025-03-23 21:43:51,345 - INFO - Loading IndoNLI dataset (validation split)...
+2025-03-23 21:43:52,726 - INFO - Loaded 2197 examples from validation split
+2025-03-23 21:43:52,726 - INFO - Creating trainer
+2025-03-23 21:43:52,726 - INFO - Using device: cuda
+2025-03-23 21:43:52,735 - INFO - Starting training
+2025-03-23 21:43:52,735 - INFO - Starting training
+/home/jupyter-23522029/indo-NLI-best-model/src/training/trainer.py:122: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = GradScaler()
+2025-03-23 21:43:52,737 - INFO - Epoch 1/5
+  0%|                                                                                                                             | 0/646 [00:00<?, ?it/s]  0%|                                                                                                                             | 0/646 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/train.py", line 147, in <module>
+    main()
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/train.py", line 140, in main
+    training_results = trainer.train()
+  File "/home/jupyter-23522029/indo-NLI-best-model/src/training/trainer.py", line 133, in train
+    for step, batch in enumerate(progress_bar):
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 708, in __next__
+    data = self._next_data()
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1480, in _next_data
+    return self._process_data(data)
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1505, in _process_data
+    data.reraise()
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/_utils.py", line 733, in reraise
+    raise exception
+KeyError: Caught KeyError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 349, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/jupyter-23522029/indo-NLI-best-model/venv/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 52, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/jupyter-23522029/indo-NLI-best-model/src/data/dataset.py", line 91, in __getitem__
+    encoding["labels"] = INDONLI_LABELS[example["label"]]
+KeyError: 1
+

@@ -1,0 +1,42 @@
+2025-03-23 22:26:06,092 - INFO - Arguments: Namespace(model_path='models/indo-roberta-base/best', model_name='indo_roberta_base', config=None, test_set='test_expert', batch_size=16, seed=42, output_dir=None)
+2025-03-23 22:26:06,176 - INFO - System information:
+2025-03-23 22:26:06,176 - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:26:06,177 - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:26:06,177 - INFO - CUDA available: Yes
+2025-03-23 22:26:06,177 - INFO - CUDA version: 12.4
+2025-03-23 22:26:06,216 - INFO - Number of GPUs: 1
+2025-03-23 22:26:06,222 - INFO - Current GPU: 0
+2025-03-23 22:26:06,222 - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:26:06,222 - INFO - Using device: cuda
+2025-03-23 22:26:06,222 - INFO - Loading model from models/indo-roberta-base/best
+2025-03-23 22:26:06,223 - INFO - Loading model of type Indo-roBERTa-base from models/indo-roberta-base/best
+2025-03-23 22:26:06,223 - WARNING - No pretrained model name found, using default: indolem/indobert-base-uncased
+2025-03-23 22:26:06,223 - INFO - Loading RoBERTa model from indolem/indobert-base-uncased
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at indolem/indobert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2025-03-23 22:26:08,421 - INFO - Using default model for Indo-roBERTa: indolem/indobert-base-uncased
+2025-03-23 22:26:08,772 - INFO - Loading test dataset: test_expert
+2025-03-23 22:26:08,772 - INFO - Loading IndoNLI dataset (test_expert split)...
+2025-03-23 22:26:11,165 - INFO - Loaded 2984 examples from test_expert split
+2025-03-23 22:26:11,165 - INFO - Starting evaluation
+2025-03-23 22:26:18,164 - INFO - Evaluation results:
+2025-03-23 22:26:18,165 - INFO - accuracy: 0.33176943699731903
+2025-03-23 22:26:18,165 - INFO - precision: 0.3241575545401502
+2025-03-23 22:26:18,165 - INFO - recall: 0.32857212053389134
+2025-03-23 22:26:18,165 - INFO - f1: 0.3107644097525758
+2025-03-23 22:26:18,165 - INFO - precision_entailment: 0.35161290322580646
+2025-03-23 22:26:18,165 - INFO - recall_entailment: 0.31412103746397696
+2025-03-23 22:26:18,165 - INFO - f1_entailment: 0.3318112633181126
+2025-03-23 22:26:18,166 - INFO - precision_neutral: 0.28752642706131076
+2025-03-23 22:26:18,166 - INFO - recall_neutral: 0.1440677966101695
+2025-03-23 22:26:18,166 - INFO - f1_neutral: 0.19195483415666903
+2025-03-23 22:26:18,166 - INFO - precision_contradiction: 0.3333333333333333
+2025-03-23 22:26:18,166 - INFO - recall_contradiction: 0.5275275275275275
+2025-03-23 22:26:18,166 - INFO - f1_contradiction: 0.40852713178294575
+2025-03-23 22:26:18,166 - INFO - Generating confusion matrix
+2025-03-23 22:26:18,402 - INFO - Generating classification report
+2025-03-23 22:26:18,413 - INFO - Saving metrics to CSV
+2025-03-23 22:26:18,417 - INFO - Metrics saved to models/indo-roberta-base/best/evaluation_test_expert/metrics.csv
+2025-03-23 22:26:18,417 - INFO - Saving predictions to CSV
+2025-03-23 22:26:18,423 - INFO - Predictions saved to models/indo-roberta-base/best/evaluation_test_expert/predictions.csv
+2025-03-23 22:26:18,423 - INFO - Evaluation completed. Results saved to models/indo-roberta-base/best/evaluation_test_expert

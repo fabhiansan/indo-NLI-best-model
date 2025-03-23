@@ -1,0 +1,116 @@
+2025-03-23 22:09:37,677 - root - INFO - Configuration: {'model': {'name': 'Indo-roBERTa-base', 'pretrained_model_name': 'flax-community/indonesian-roberta-base', 'max_seq_length': 128, 'output_hidden_states': False}, 'training': {'batch_size': 128, 'learning_rate': '2e-5', 'num_epochs': 5, 'warmup_ratio': 0.1, 'weight_decay': 0.01, 'gradient_accumulation_steps': 1, 'seed': 42, 'save_steps': 500, 'eval_steps': 500, 'logging_steps': 100, 'disable_tqdm': False, 'fp16': True}, 'data': {'dataset_name': 'afaji/indonli', 'train_split': 'train', 'validation_split': 'validation', 'test_splits': ['test_lay', 'test_expert'], 'num_workers': 4}, 'output': {'output_dir': '/home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base', 'logging_dir': '/home/jupyter-23522029/indo-NLI-best-model/logs/indo-roberta-base', 'report_dir': '/home/jupyter-23522029/indo-NLI-best-model/reports/indo-roberta-base'}}
+2025-03-23 22:09:37,759 - root - INFO - System information:
+2025-03-23 22:09:37,760 - root - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:09:37,760 - root - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:09:37,760 - root - INFO - CUDA available: Yes
+2025-03-23 22:09:37,760 - root - INFO - CUDA version: 12.4
+2025-03-23 22:09:37,800 - root - INFO - Number of GPUs: 1
+2025-03-23 22:09:37,809 - root - INFO - Current GPU: 0
+2025-03-23 22:09:37,809 - root - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:09:37,810 - root - INFO - Using device: cuda
+2025-03-23 22:09:37,810 - root - INFO - Creating model
+2025-03-23 22:09:37,810 - src.models.model_factory - INFO - Creating model of type Indo-roBERTa-base
+2025-03-23 22:09:37,810 - src.models.roberta_model - INFO - Loading RoBERTa model from flax-community/indonesian-roberta-base
+2025-03-23 22:09:38,735 - src.models.roberta_model - INFO - Loading tokenizer from: flax-community/indonesian-roberta-base
+2025-03-23 22:09:39,205 - root - INFO - Loading datasets
+2025-03-23 22:09:39,206 - src.data.dataset - INFO - Loading IndoNLI dataset (train split)...
+2025-03-23 22:09:41,569 - src.data.dataset - INFO - Loaded 10330 examples from train split
+2025-03-23 22:09:41,570 - src.data.dataset - INFO - Loading IndoNLI dataset (validation split)...
+2025-03-23 22:09:43,565 - src.data.dataset - INFO - Loaded 2197 examples from validation split
+2025-03-23 22:09:43,566 - root - INFO - Creating trainer
+2025-03-23 22:09:43,567 - src.training.trainer - INFO - Using device: cuda
+2025-03-23 22:09:43,581 - root - INFO - Starting training
+2025-03-23 22:09:43,581 - src.training.trainer - INFO - Starting training
+2025-03-23 22:09:43,585 - src.training.trainer - INFO - Epoch 1/5
+2025-03-23 22:10:01,873 - src.training.trainer - INFO - Epoch 1 completed. Average loss: 1.0421
+2025-03-23 22:10:01,874 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:10:06,590 - src.training.trainer - INFO - Eval accuracy: 0.6677287209831588
+2025-03-23 22:10:06,590 - src.training.trainer - INFO - Eval precision: 0.6705520710280481
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval recall: 0.664461082739
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval f1: 0.665999224307336
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval precision_entailment: 0.6395089285714286
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval recall_entailment: 0.7100371747211895
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval f1_entailment: 0.6729301233118027
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval precision_neutral: 0.6244131455399061
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval recall_neutral: 0.6224648985959438
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval f1_neutral: 0.6234375
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval precision_contradiction: 0.7477341389728097
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval recall_contradiction: 0.6608811748998665
+2025-03-23 22:10:06,591 - src.training.trainer - INFO - Eval f1_contradiction: 0.7016300496102055
+2025-03-23 22:10:07,751 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base/epoch-1
+2025-03-23 22:10:07,752 - src.training.trainer - INFO - Epoch 2/5
+2025-03-23 22:10:12,295 - src.training.trainer - INFO - Step 100: loss = 0.8227
+2025-03-23 22:10:25,487 - src.training.trainer - INFO - Epoch 2 completed. Average loss: 0.7628
+2025-03-23 22:10:25,487 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:10:30,164 - src.training.trainer - INFO - Eval accuracy: 0.7373691397360036
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval precision: 0.7420113760813835
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval recall: 0.7323945985833801
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval f1: 0.7336061312590862
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval precision_entailment: 0.7133689839572193
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval recall_entailment: 0.8265179677819083
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval f1_entailment: 0.7657864523536165
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval precision_neutral: 0.6817472698907956
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval recall_neutral: 0.6817472698907956
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval f1_neutral: 0.6817472698907956
+2025-03-23 22:10:30,165 - src.training.trainer - INFO - Eval precision_contradiction: 0.8309178743961353
+2025-03-23 22:10:30,166 - src.training.trainer - INFO - Eval recall_contradiction: 0.6889185580774366
+2025-03-23 22:10:30,166 - src.training.trainer - INFO - Eval f1_contradiction: 0.7532846715328467
+2025-03-23 22:10:31,437 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base/epoch-2
+2025-03-23 22:10:31,437 - src.training.trainer - INFO - Epoch 3/5
+2025-03-23 22:10:40,097 - src.training.trainer - INFO - Step 200: loss = 0.6358
+2025-03-23 22:10:49,284 - src.training.trainer - INFO - Epoch 3 completed. Average loss: 0.6260
+2025-03-23 22:10:49,285 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval accuracy: 0.7537551206190259
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval precision: 0.7556471192902223
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval recall: 0.7544381729872027
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval f1: 0.7527418865768679
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval precision_entailment: 0.7891332470892626
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval recall_entailment: 0.7558859975216853
+2025-03-23 22:10:53,990 - src.training.trainer - INFO - Eval f1_entailment: 0.7721518987341772
+2025-03-23 22:10:53,991 - src.training.trainer - INFO - Eval precision_neutral: 0.6573333333333333
+2025-03-23 22:10:53,991 - src.training.trainer - INFO - Eval recall_neutral: 0.7691107644305772
+2025-03-23 22:10:53,991 - src.training.trainer - INFO - Eval f1_neutral: 0.7088425593098491
+2025-03-23 22:10:53,991 - src.training.trainer - INFO - Eval precision_contradiction: 0.8204747774480712
+2025-03-23 22:10:53,991 - src.training.trainer - INFO - Eval recall_contradiction: 0.7383177570093458
+2025-03-23 22:10:53,991 - src.training.trainer - INFO - Eval f1_contradiction: 0.7772312016865777
+2025-03-23 22:10:55,150 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base/epoch-3
+2025-03-23 22:10:55,150 - src.training.trainer - INFO - Epoch 4/5
+2025-03-23 22:11:07,909 - src.training.trainer - INFO - Step 300: loss = 0.5375
+2025-03-23 22:11:13,088 - src.training.trainer - INFO - Epoch 4 completed. Average loss: 0.5402
+2025-03-23 22:11:13,088 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:11:17,903 - src.training.trainer - INFO - Eval accuracy: 0.7692307692307693
+2025-03-23 22:11:17,903 - src.training.trainer - INFO - Eval precision: 0.7679585159052477
+2025-03-23 22:11:17,903 - src.training.trainer - INFO - Eval recall: 0.76541971822592
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval f1: 0.7662329205700505
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval precision_entailment: 0.7628504672897196
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval recall_entailment: 0.8091697645600991
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval f1_entailment: 0.7853277209861695
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval precision_neutral: 0.7192429022082019
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval recall_neutral: 0.7113884555382215
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval f1_neutral: 0.7152941176470589
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval precision_contradiction: 0.8217821782178217
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval recall_contradiction: 0.7757009345794392
+2025-03-23 22:11:17,904 - src.training.trainer - INFO - Eval f1_contradiction: 0.7980769230769231
+2025-03-23 22:11:19,138 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base/epoch-4
+2025-03-23 22:11:19,139 - src.training.trainer - INFO - Epoch 5/5
+2025-03-23 22:11:36,070 - src.training.trainer - INFO - Step 400: loss = 0.4920
+2025-03-23 22:11:37,187 - src.training.trainer - INFO - Epoch 5 completed. Average loss: 0.4925
+2025-03-23 22:11:37,187 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:11:41,989 - src.training.trainer - INFO - Eval accuracy: 0.7637687756030951
+2025-03-23 22:11:41,989 - src.training.trainer - INFO - Eval precision: 0.7615583044305518
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval recall: 0.7606979985593575
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval f1: 0.760999106025532
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval precision_entailment: 0.7681159420289855
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval recall_entailment: 0.7881040892193308
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval f1_entailment: 0.7779816513761468
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval precision_neutral: 0.7074303405572755
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval recall_neutral: 0.7129485179407177
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval f1_neutral: 0.7101787101787101
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval precision_contradiction: 0.8091286307053942
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval recall_contradiction: 0.7810413885180241
+2025-03-23 22:11:41,990 - src.training.trainer - INFO - Eval f1_contradiction: 0.7948369565217391
+2025-03-23 22:11:43,220 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base/epoch-5
+2025-03-23 22:11:44,373 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/indo-roberta-base/final
+2025-03-23 22:11:44,373 - src.training.trainer - INFO - Training completed!
+2025-03-23 22:11:44,455 - root - INFO - Best evaluation metric: -inf
+2025-03-23 22:11:44,456 - root - INFO - Training completed!

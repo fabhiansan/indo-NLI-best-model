@@ -1,0 +1,128 @@
+2025-03-23 22:35:16,553 - root - INFO - Configuration: {'model': {'name': 'Sentence-BERT', 'pretrained_model_name': 'firqaaa/indo-sentence-bert-base', 'max_seq_length': 128, 'output_hidden_states': False}, 'training': {'batch_size': 128, 'learning_rate': '2e-5', 'num_epochs': 5, 'warmup_ratio': 0.1, 'weight_decay': 0.01, 'gradient_accumulation_steps': 1, 'seed': 42, 'save_steps': 500, 'eval_steps': 500, 'logging_steps': 100, 'disable_tqdm': False, 'fp16': True}, 'data': {'dataset_name': 'afaji/indonli', 'train_split': 'train', 'validation_split': 'validation', 'test_splits': ['test_lay', 'test_expert'], 'num_workers': 4}, 'output': {'output_dir': '/home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert', 'logging_dir': '/home/jupyter-23522029/indo-NLI-best-model/logs/sentence-bert', 'report_dir': '/home/jupyter-23522029/indo-NLI-best-model/reports/sentence-bert'}}
+2025-03-23 22:35:16,643 - root - INFO - System information:
+2025-03-23 22:35:16,643 - root - INFO - Python version: 3.10.14 | packaged by conda-forge | (main, Mar 20 2024, 12:45:18) [GCC 12.3.0]
+2025-03-23 22:35:16,643 - root - INFO - PyTorch version: 2.6.0+cu124
+2025-03-23 22:35:16,643 - root - INFO - CUDA available: Yes
+2025-03-23 22:35:16,643 - root - INFO - CUDA version: 12.4
+2025-03-23 22:35:16,684 - root - INFO - Number of GPUs: 1
+2025-03-23 22:35:16,692 - root - INFO - Current GPU: 0
+2025-03-23 22:35:16,692 - root - INFO - GPU name: NVIDIA RTX A5000
+2025-03-23 22:35:16,693 - root - INFO - Using device: cuda
+2025-03-23 22:35:16,693 - root - INFO - Creating model
+2025-03-23 22:35:16,693 - src.models.model_factory - INFO - Creating model of type Sentence-BERT
+2025-03-23 22:35:16,694 - src.models.sentence_bert_model - INFO - Loading Sentence-BERT model from firqaaa/indo-sentence-bert-base
+2025-03-23 22:35:18,292 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:35:18,617 - root - INFO - Loading datasets
+2025-03-23 22:35:18,617 - src.data.dataset - INFO - Loading IndoNLI dataset (train split)...
+2025-03-23 22:35:20,997 - src.data.dataset - INFO - Loaded 10330 examples from train split
+2025-03-23 22:35:20,999 - src.data.dataset - INFO - Loading IndoNLI dataset (validation split)...
+2025-03-23 22:35:22,348 - src.data.dataset - INFO - Loaded 2197 examples from validation split
+2025-03-23 22:35:22,348 - root - INFO - Creating trainer
+2025-03-23 22:35:22,348 - src.training.trainer - INFO - Using device: cuda
+2025-03-23 22:35:22,352 - root - INFO - Starting training
+2025-03-23 22:35:22,352 - src.training.trainer - INFO - Starting training
+2025-03-23 22:35:22,354 - src.training.trainer - INFO - Epoch 1/5
+2025-03-23 22:35:40,920 - src.training.trainer - INFO - Epoch 1 completed. Average loss: 1.0503
+2025-03-23 22:35:40,921 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:35:45,942 - src.training.trainer - INFO - Eval accuracy: 0.535275375512062
+2025-03-23 22:35:45,942 - src.training.trainer - INFO - Eval precision: 0.5464256262947814
+2025-03-23 22:35:45,942 - src.training.trainer - INFO - Eval recall: 0.5292814939039096
+2025-03-23 22:35:45,942 - src.training.trainer - INFO - Eval f1: 0.5346933875624309
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval precision_entailment: 0.5049944506104328
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval recall_entailment: 0.563816604708798
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval f1_entailment: 0.5327868852459017
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval precision_neutral: 0.39622641509433965
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval recall_neutral: 0.42589703588143524
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval f1_neutral: 0.4105263157894737
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval precision_contradiction: 0.7380560131795717
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval recall_contradiction: 0.5981308411214953
+2025-03-23 22:35:45,943 - src.training.trainer - INFO - Eval f1_contradiction: 0.6607669616519174
+2025-03-23 22:35:46,863 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:35:47,331 - src.models.sentence_bert_model - INFO - Tokenizer saved successfully to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-1
+2025-03-23 22:35:47,338 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-1
+2025-03-23 22:35:47,338 - src.training.trainer - INFO - Epoch 2/5
+2025-03-23 22:35:52,013 - src.training.trainer - INFO - Step 100: loss = 0.8874
+2025-03-23 22:36:05,482 - src.training.trainer - INFO - Epoch 2 completed. Average loss: 0.8635
+2025-03-23 22:36:05,483 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:36:10,539 - src.training.trainer - INFO - Eval accuracy: 0.646335912608102
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval precision: 0.6539471610578703
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval recall: 0.6401931468321248
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval f1: 0.6430956077557696
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval precision_entailment: 0.6020618556701031
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval recall_entailment: 0.7236679058240396
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval f1_entailment: 0.6572875633089477
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval precision_neutral: 0.5953565505804311
+2025-03-23 22:36:10,540 - src.training.trainer - INFO - Eval recall_neutral: 0.5600624024960998
+2025-03-23 22:36:10,541 - src.training.trainer - INFO - Eval f1_neutral: 0.5771704180064309
+2025-03-23 22:36:10,541 - src.training.trainer - INFO - Eval precision_contradiction: 0.7644230769230769
+2025-03-23 22:36:10,541 - src.training.trainer - INFO - Eval recall_contradiction: 0.636849132176235
+2025-03-23 22:36:10,541 - src.training.trainer - INFO - Eval f1_contradiction: 0.6948288419519301
+2025-03-23 22:36:11,456 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:36:11,830 - src.models.sentence_bert_model - INFO - Tokenizer saved successfully to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-2
+2025-03-23 22:36:11,848 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-2
+2025-03-23 22:36:11,848 - src.training.trainer - INFO - Epoch 3/5
+2025-03-23 22:36:20,777 - src.training.trainer - INFO - Step 200: loss = 0.7047
+2025-03-23 22:36:30,168 - src.training.trainer - INFO - Epoch 3 completed. Average loss: 0.7103
+2025-03-23 22:36:30,169 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval accuracy: 0.700045516613564
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval precision: 0.7042376737720906
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval recall: 0.6959801326060053
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval f1: 0.697656962893244
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval precision_entailment: 0.6681034482758621
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval recall_entailment: 0.7682775712515489
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval f1_entailment: 0.7146974063400576
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval precision_neutral: 0.6741935483870968
+2025-03-23 22:36:35,177 - src.training.trainer - INFO - Eval recall_neutral: 0.6521060842433697
+2025-03-23 22:36:35,178 - src.training.trainer - INFO - Eval f1_neutral: 0.6629659000793021
+2025-03-23 22:36:35,178 - src.training.trainer - INFO - Eval precision_contradiction: 0.7704160246533128
+2025-03-23 22:36:35,178 - src.training.trainer - INFO - Eval recall_contradiction: 0.6675567423230975
+2025-03-23 22:36:35,178 - src.training.trainer - INFO - Eval f1_contradiction: 0.7153075822603719
+2025-03-23 22:36:36,107 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:36:36,470 - src.models.sentence_bert_model - INFO - Tokenizer saved successfully to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-3
+2025-03-23 22:36:36,475 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-3
+2025-03-23 22:36:36,475 - src.training.trainer - INFO - Epoch 4/5
+2025-03-23 22:36:49,538 - src.training.trainer - INFO - Step 300: loss = 0.6125
+2025-03-23 22:36:54,779 - src.training.trainer - INFO - Epoch 4 completed. Average loss: 0.6109
+2025-03-23 22:36:54,779 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:36:59,759 - src.training.trainer - INFO - Eval accuracy: 0.7068730086481566
+2025-03-23 22:36:59,759 - src.training.trainer - INFO - Eval precision: 0.7115416872598552
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval recall: 0.7023888048333001
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval f1: 0.7043944762638047
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval precision_entailment: 0.6709539121114684
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval recall_entailment: 0.7757125154894672
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval f1_entailment: 0.7195402298850575
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval precision_neutral: 0.6802610114192496
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval recall_neutral: 0.6505460218408736
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval f1_neutral: 0.6650717703349283
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval precision_contradiction: 0.783410138248848
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval recall_contradiction: 0.6809078771695594
+2025-03-23 22:36:59,760 - src.training.trainer - INFO - Eval f1_contradiction: 0.7285714285714285
+2025-03-23 22:37:00,671 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:37:01,012 - src.models.sentence_bert_model - INFO - Tokenizer saved successfully to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-4
+2025-03-23 22:37:01,047 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-4
+2025-03-23 22:37:01,047 - src.training.trainer - INFO - Epoch 5/5
+2025-03-23 22:37:18,255 - src.training.trainer - INFO - Step 400: loss = 0.5416
+2025-03-23 22:37:19,378 - src.training.trainer - INFO - Epoch 5 completed. Average loss: 0.5432
+2025-03-23 22:37:19,379 - src.training.trainer - INFO - Running evaluation
+2025-03-23 22:37:24,382 - src.training.trainer - INFO - Eval accuracy: 0.7068730086481566
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval precision: 0.7079469650979667
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval recall: 0.7047090716885078
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval f1: 0.7053487875173469
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval precision_entailment: 0.6913294797687861
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval recall_entailment: 0.7410161090458488
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval f1_entailment: 0.715311004784689
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval precision_neutral: 0.6636225266362252
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval recall_neutral: 0.6801872074882995
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval f1_neutral: 0.6718027734976888
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval precision_contradiction: 0.7688888888888888
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval recall_contradiction: 0.6929238985313751
+2025-03-23 22:37:24,383 - src.training.trainer - INFO - Eval f1_contradiction: 0.7289325842696629
+2025-03-23 22:37:25,354 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:37:25,672 - src.models.sentence_bert_model - INFO - Tokenizer saved successfully to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-5
+2025-03-23 22:37:25,678 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/epoch-5
+2025-03-23 22:37:26,288 - src.models.sentence_bert_model - INFO - Loading tokenizer from: firqaaa/indo-sentence-bert-base
+2025-03-23 22:37:26,622 - src.models.sentence_bert_model - INFO - Tokenizer saved successfully to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/final
+2025-03-23 22:37:26,630 - src.training.trainer - INFO - Model saved to /home/jupyter-23522029/indo-NLI-best-model/models/sentence-bert/final
+2025-03-23 22:37:26,630 - src.training.trainer - INFO - Training completed!
+2025-03-23 22:37:26,704 - root - INFO - Best evaluation metric: -inf
+2025-03-23 22:37:26,705 - root - INFO - Training completed!

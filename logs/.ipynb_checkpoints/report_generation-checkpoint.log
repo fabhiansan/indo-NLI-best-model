@@ -1,0 +1,20 @@
+2025-03-23 21:43:57,510 - INFO - Arguments: Namespace(models_dir='models', output_dir='reports/comparison', test_sets=['test_lay', 'test_expert'])
+2025-03-23 21:43:57,510 - INFO - Collecting metrics from all models
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for indo-roberta-base on test_lay
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for indo-roberta-base on test_expert
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for sentence-bert-simple on test_lay
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for sentence-bert-simple on test_expert
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for sentence-bert-proper on test_lay
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for sentence-bert-proper on test_expert
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for sentence-bert on test_lay
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for sentence-bert on test_expert
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for indo-roberta on test_lay
+2025-03-23 21:43:57,510 - WARNING - Evaluation directory not found for indo-roberta on test_expert
+Traceback (most recent call last):
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/generate_report.py", line 403, in <module>
+    main()
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/generate_report.py", line 393, in main
+    metrics_df = collect_model_metrics(args.models_dir, args.test_sets)
+  File "/home/jupyter-23522029/indo-NLI-best-model/scripts/generate_report.py", line 75, in collect_model_metrics
+    raise ValueError("No evaluation results found")
+ValueError: No evaluation results found
