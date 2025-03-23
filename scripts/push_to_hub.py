@@ -7,7 +7,13 @@ import logging
 import os
 import json
 import shutil
+import sys
 from datetime import datetime
+from pathlib import Path
+
+# Add the project root to the path
+project_root = str(Path(__file__).parent.parent.absolute())
+sys.path.insert(0, project_root)
 
 import torch
 from transformers import AutoConfig, AutoTokenizer, AutoModelForSequenceClassification
