@@ -124,6 +124,35 @@ def find_model_checkpoints(
     return checkpoints
 
 
+def normalize_model_name(model_name: str) -> str:
+    """
+    Normalize model name to determine its type.
+    
+    Args:
+        model_name: Model name
+        
+    Returns:
+        Normalized model name
+    """
+    # First strip any epoch or base suffixes for the initial classification
+    base_model_name = re.sub(r'-epoch-\d+$', '', model_name)
+    base_model_name = re.sub(r'-base(?:-epoch-\d+)?$', '', base_model_name)
+    
+    if "roberta" in base_model_name.lower():
+        return "Indo-roBERTa"
+    elif "sentence-bert" in base_model_name.lower():
+        # Handle different sentence-bert variants
+        if "simple" in base_model_name.lower():
+            return "Sentence-BERT-Simple"
+        elif "proper" in base_model_name.lower():
+            return "Sentence-BERT-Proper"
+        else:
+            return "Sentence-BERT"
+    else:
+        # Default to a simple capitalization for unknown models
+        return base_model_name.capitalize()
+
+
 def evaluate_model(
     model_path: Path,
     model_name: str,
@@ -138,27 +167,27 @@ def evaluate_model(
     
     try:
         # Normalize model name to determine its type
-        normalized_name = model_name
+        normalized_name = normalize_model_name(model_name)
         logger.info("Normalized model name from '%s' to '%s'", model_name, normalized_name)
         
         # Load the model
         try:
-            model = ModelFactory.from_pretrained(str(model_path), model_name=model_name)
+            model = ModelFactory.from_pretrained(str(model_path), model_name=normalized_name)
             model.to("cuda" if torch.cuda.is_available() else "cpu")
             model.eval()
             
             # Get tokenizer with robust fallback
             try:
-                tokenizer = ModelFactory.get_tokenizer_for_model(str(model_path), model_name)
+                tokenizer = ModelFactory.get_tokenizer_for_model(str(model_path), model_name=normalized_name)
             except Exception as e:
                 logger.warning("Error loading tokenizer via ModelFactory: %s", str(e))
                 
                 # Direct fallbacks for specific model types
-                if "roberta" in model_name.lower():
+                if "RoBERTa" in normalized_name:
                     logger.info("Falling back to default RoBERTa tokenizer")
                     from transformers import AutoTokenizer
-                    tokenizer = AutoTokenizer.from_pretrained("indolem/indobert-base-uncased")
-                elif "bert" in model_name.lower():
+                    tokenizer = AutoTokenizer.from_pretrained("cahya/roberta-base-indonesian-1.5G")
+                elif "BERT" in normalized_name:
                     logger.info("Falling back to default BERT tokenizer")
                     from transformers import AutoTokenizer
                     tokenizer = AutoTokenizer.from_pretrained("firqaaa/indo-sentence-bert-base")
