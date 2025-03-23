@@ -64,7 +64,7 @@ class ModelFactory:
         
         # Log the normalization for debugging
         if normalized_name != model_name:
-            logger.info("Normalized model name from '%s' to '%s'", model_name, normalized_name)
+            logger.info(f"Normalized model name: {model_name} -> {normalized_name}")
         
         return normalized_name
     
@@ -84,9 +84,9 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError("Unknown model type: %s (normalized: %s)" % (model_name, normalized_name))
+            raise ValueError(f"Unknown model type: {model_name} (normalized: {normalized_name})")
         
-        logger.info("Creating model of type %s", normalized_name)
+        logger.info(f"Creating model of type {normalized_name}")
         model_class = cls._models[normalized_name]
         
         return model_class(config, num_labels=num_labels, **kwargs)
@@ -105,7 +105,7 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError("Unknown model type: %s (normalized: %s)" % (model_name, normalized_name))
+            raise ValueError(f"Unknown model type: {model_name} (normalized: {normalized_name})")
         
         return cls._models[normalized_name]
     
@@ -125,11 +125,44 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError("Unknown model type: %s" % model_name)
+            raise ValueError(f"Unknown model type: {model_name}")
         
-        logger.info("Loading model of type %s from %s", normalized_name, model_path)
+        logger.info(f" LOADING MODEL: {model_name} from {model_path}")
         model_class = cls._models[normalized_name]
         
+        logger.info(f"Using normalized model type: '{normalized_name}' for model '{model_name}'")
+        
+        # Check if the required model files exist
+        config_path = os.path.join(model_path, "config.json")
+        if os.path.exists(config_path):
+            logger.info(f"Found config.json at {config_path}")
+            # Get a preview of the config (first few lines)
+            try:
+                with open(config_path, "r") as f:
+                    config_preview = f.read(500)  # First 500 chars
+                    logger.info(f"Config preview: {config_preview}")
+            except Exception as e:
+                logger.warning(f"Could not read config file: {str(e)}")
+        else:
+            logger.warning(f"No config.json found at {config_path}")
+        
+        # Check for pretrained model name file
+        pretrained_model_name_path = os.path.join(model_path, "pretrained_model_name.txt")
+        if os.path.exists(pretrained_model_name_path):
+            try:
+                with open(pretrained_model_name_path, "r") as f:
+                    pretrained_model_name = f.read().strip()
+                    logger.info(f"Found pretrained_model_name.txt: {pretrained_model_name}")
+            except Exception as e:
+                logger.warning(f"Could not read pretrained model name file: {str(e)}")
+        
+        # Check for pytorch_model.bin
+        pytorch_model_path = os.path.join(model_path, "pytorch_model.bin")
+        if os.path.exists(pytorch_model_path):
+            logger.info(f"Found pytorch_model.bin, size: {os.path.getsize(pytorch_model_path) / (1024 * 1024):.2f} MB")
+        else:
+            logger.warning(f" No pytorch_model.bin found at {pytorch_model_path}")
+            
         return model_class.from_pretrained(model_path, config, **kwargs)
     
     @classmethod
@@ -147,7 +180,7 @@ class ModelFactory:
         normalized_name = cls._normalize_model_name(model_name)
         
         if normalized_name not in cls._models:
-            raise ValueError("Unknown model type: %s" % model_name)
+            raise ValueError(f"Unknown model type: {model_name}")
         
         # Get the model class
         model_class = cls._models[normalized_name]
@@ -166,27 +199,27 @@ class ModelFactory:
         if os.path.exists(pretrained_model_name_path):
             with open(pretrained_model_name_path, "r") as f:
                 original_model_name = f.read().strip()
-                logger.info("Found stored pretrained model name: %s", original_model_name)
+                logger.info(f"Found stored pretrained model name: {original_model_name}")
                 try:
                     from transformers import AutoTokenizer
                     return AutoTokenizer.from_pretrained(original_model_name, **kwargs)
                 except Exception as e:
-                    logger.warning("Failed to load tokenizer from %s: %s", original_model_name, str(e))
+                    logger.warning(f"Failed to load tokenizer from {original_model_name}: {str(e)}")
         
         # Try to deduce from model path
         for key, default_model in default_models.items():
             if key.lower().replace("-", "").replace("_", "") in model_path.lower().replace("-", "").replace("_", ""):
-                logger.info("Using default model for %s: %s", key, default_model)
+                logger.info(f"Using default model for {key}: {default_model}")
                 try:
                     from transformers import AutoTokenizer
                     return AutoTokenizer.from_pretrained(default_model, **kwargs)
                 except Exception as e:
-                    logger.warning("Failed to load tokenizer from %s: %s", default_model, str(e))
+                    logger.warning(f"Failed to load tokenizer from {default_model}: {str(e)}")
         
         # Use the default model for this type as fallback
         default_model = default_models.get(normalized_name)
         if default_model:
-            logger.info("Using fallback default model: %s", default_model)
+            logger.info(f"Using fallback default model: {default_model}")
             try:
                 from transformers import AutoTokenizer
                 return AutoTokenizer.from_pretrained(default_model, **kwargs)

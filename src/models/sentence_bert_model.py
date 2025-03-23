@@ -157,6 +157,8 @@ class SentenceBERTForNLI(BaseNLIModel):
         Returns:
             Loaded model
         """
+        logger.info(f"Loading model of type {cls.__name__} from {model_path}")
+        
         # Check if we have a stored pretrained model name
         pretrained_model_name_path = os.path.join(model_path, "pretrained_model_name.txt")
         pretrained_model_name = None
@@ -164,15 +166,59 @@ class SentenceBERTForNLI(BaseNLIModel):
         if os.path.exists(pretrained_model_name_path):
             with open(pretrained_model_name_path, "r") as f:
                 pretrained_model_name = f.read().strip()
-                logger.info("Found stored pretrained model name: %s", pretrained_model_name)
+                logger.info(f"Found stored pretrained model name: {pretrained_model_name}")
         
         # If not found, and no config provided, use a default pretrained model
         if pretrained_model_name is None and config is None:
             pretrained_model_name = "firqaaa/indo-sentence-bert-base"
-            logger.warning("No pretrained model name found, using default: %s", pretrained_model_name)
+            logger.warning(f"No pretrained model name found, using default: {pretrained_model_name}")
         
+        # Check if we have fine-tuned weights
+        pytorch_model_bin = os.path.join(model_path, "pytorch_model.bin")
+        has_fine_tuned_bert = os.path.exists(pytorch_model_bin)
+        
+        if has_fine_tuned_bert:
+            logger.info(f"Found fine-tuned BERT weights at {pytorch_model_bin}")
+            
+            # Create minimal config for initial model instance
+            if config is None:
+                config = {
+                    "model": {
+                        "pretrained_model_name": pretrained_model_name or "firqaaa/indo-sentence-bert-base",
+                        "output_hidden_states": True,
+                    }
+                }
+            
+            # Create the model instance
+            model = cls(config, **kwargs)
+            
+            try:
+                # Load fine-tuned BERT weights
+                model_config = AutoConfig.from_pretrained(model_path)
+                model.bert = AutoModel.from_pretrained(model_path, config=model_config)
+                logger.info(f"Successfully loaded fine-tuned BERT weights from {model_path}")
+                
+                # Load classifier weights if they exist
+                classifier_path = os.path.join(model_path, "classifier.pt")
+                if os.path.exists(classifier_path):
+                    classifier_dict = torch.load(classifier_path)
+                    model.classifier.load_state_dict(classifier_dict["classifier"])
+                    model.pooling_strategy = classifier_dict.get("pooling_strategy", "mean")
+                    model.num_labels = classifier_dict.get("num_labels", 3)
+                    logger.info(f"Successfully loaded classifier weights from {classifier_path}")
+                else:
+                    logger.warning(f"No classifier weights found at {classifier_path}, using initialized classifier")
+                
+                return model
+            except Exception as e:
+                logger.error(f"Error loading fine-tuned BERT model: {str(e)}")
+                logger.warning("Falling back to base pretrained model")
+                # Continue to fallback approach if loading fails
+        else:
+            logger.warning(f"No fine-tuned BERT weights found at {pytorch_model_bin}")
+        
+        # Fallback: create a new model from base pretrained weights
         if config is None:
-            # Create a default config if none is provided
             config = {
                 "model": {
                     "pretrained_model_name": pretrained_model_name or "firqaaa/indo-sentence-bert-base",
@@ -182,13 +228,14 @@ class SentenceBERTForNLI(BaseNLIModel):
         
         model = cls(config, **kwargs)
         
-        # Load classifier weights if they exist
+        # Still try to load classifier weights if they exist
         classifier_path = os.path.join(model_path, "classifier.pt")
         if os.path.exists(classifier_path):
             classifier_dict = torch.load(classifier_path)
             model.classifier.load_state_dict(classifier_dict["classifier"])
             model.pooling_strategy = classifier_dict.get("pooling_strategy", "mean")
             model.num_labels = classifier_dict.get("num_labels", 3)
+            logger.info(f"Loaded classifier weights from {classifier_path} with base pretrained BERT")
         
         return model
     

@@ -107,6 +107,8 @@ class RoBERTaForNLI(BaseNLIModel):
         Returns:
             Loaded model
         """
+        logger.info(f"Loading model of type {cls.__name__} from {model_path}")
+        
         # Check if we have a stored pretrained model name
         pretrained_model_name_path = os.path.join(model_path, "pretrained_model_name.txt")
         pretrained_model_name = None
@@ -114,15 +116,53 @@ class RoBERTaForNLI(BaseNLIModel):
         if os.path.exists(pretrained_model_name_path):
             with open(pretrained_model_name_path, "r") as f:
                 pretrained_model_name = f.read().strip()
-                logger.info("Found stored pretrained model name: %s", pretrained_model_name)
+                logger.info(f"Found stored pretrained model name: {pretrained_model_name}")
         
         # If not found, and no config provided, use a default pretrained model
         if pretrained_model_name is None and config is None:
             pretrained_model_name = "indolem/indobert-base-uncased"
-            logger.warning("No pretrained model name found, using default: %s", pretrained_model_name)
+            logger.warning(f"No pretrained model name found, using default: {pretrained_model_name}")
+
+        # Check if model has fine-tuned weights
+        pytorch_model_path = os.path.join(model_path, "pytorch_model.bin")
+        has_fine_tuned_weights = os.path.exists(pytorch_model_path)
+        
+        if has_fine_tuned_weights:
+            logger.info(f"Found fine-tuned model weights at {pytorch_model_path}")
             
+            # Create minimal config for initial model instance
+            if config is None:
+                config = {
+                    "model": {
+                        "pretrained_model_name": pretrained_model_name,
+                        "output_hidden_states": False,
+                    }
+                }
+            
+            # Create instance first
+            instance = cls(config, **kwargs)
+            
+            # Now load the fine-tuned weights from the checkpoint
+            try:
+                # Load model configuration
+                model_config = AutoConfig.from_pretrained(model_path)
+                
+                # Load the fine-tuned model directly from checkpoint
+                instance.model = AutoModelForSequenceClassification.from_pretrained(
+                    model_path,
+                    config=model_config,
+                )
+                
+                logger.info(f"Successfully loaded fine-tuned model weights from {model_path}")
+                return instance
+            except Exception as e:
+                logger.error(f"Error loading fine-tuned model: {str(e)}")
+                # Continue to fallback approach
+        else:
+            logger.warning(f"No fine-tuned weights found at {pytorch_model_path}")
+        
+        # Fallback to just using the base model
         if config is None:
-            # Create a default config if none is provided
             config = {
                 "model": {
                     "pretrained_model_name": pretrained_model_name or model_path,
@@ -130,8 +170,9 @@ class RoBERTaForNLI(BaseNLIModel):
                 }
             }
         
+        logger.warning("Using base pretrained model without fine-tuned weights")
         return cls(config, **kwargs)
-    
+
     @staticmethod
     def get_tokenizer(pretrained_model_name: str, **kwargs) -> AutoTokenizer:
         """
