@@ -94,13 +94,28 @@ def find_model_checkpoints(
             checkpoints.append((model_name, final_dir))
             
         # Check for epoch checkpoints
-        for epoch_dir in model_dir.glob("epoch-*"):
-            if epoch_dir.is_dir():
-                # Extract epoch number for sorting
-                match = re.search(r"epoch-(\d+)", str(epoch_dir))
-                if match:
-                    epoch_num = int(match.group(1))
-                    checkpoints.append((f"{model_name}-epoch-{epoch_num}", epoch_dir))
+        epoch_patterns = ["epoch-*", "epoch_*", "*_epoch_*", "*-epoch-*", "checkpoint-*"]
+        epoch_found = False
+        
+        for pattern in epoch_patterns:
+            for epoch_dir in model_dir.glob(pattern):
+                if epoch_dir.is_dir():
+                    epoch_found = True
+                    # Extract epoch number for sorting
+                    match = re.search(r"epoch[-_]?(\d+)", str(epoch_dir))
+                    if match:
+                        epoch_num = int(match.group(1))
+                        checkpoint_name = f"{model_name}-epoch-{epoch_num}"
+                        logger.info("Found epoch checkpoint: %s at %s", checkpoint_name, epoch_dir)
+                        checkpoints.append((checkpoint_name, epoch_dir))
+                    else:
+                        # If no regex match, just use the directory name
+                        checkpoint_name = f"{model_name}-{epoch_dir.name}"
+                        logger.info("Found checkpoint with non-standard name: %s at %s", checkpoint_name, epoch_dir)
+                        checkpoints.append((checkpoint_name, epoch_dir))
+        
+        if not epoch_found:
+            logger.warning("No epoch checkpoints found in %s", model_dir)
     
     # Sort by model name
     checkpoints.sort(key=lambda x: x[0])
@@ -113,125 +128,112 @@ def evaluate_model(
     model_path: Path,
     model_name: str,
     split: str,
-    batch_size: int = 16,
+    batch_size: int = 32,
     max_length: int = 128,
     dataset_name: str = "afaji/indonli",
-    num_workers: int = 4,
-    device: Optional[str] = None,
+    seed: int = 42,
 ) -> Dict[str, float]:
-    """
-    Evaluate a model on a specific dataset split.
-    
-    Args:
-        model_path: Path to the model checkpoint
-        model_name: Model name (used for logging and results)
-        split: Dataset split to evaluate on
-        batch_size: Batch size for evaluation
-        max_length: Maximum sequence length
-        dataset_name: HuggingFace dataset name
-        num_workers: Number of workers for data loading
-        device: Device to run evaluation on
-        
-    Returns:
-        Dictionary of metrics
-    """
-    if device is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-    
+    """Evaluate a model on a specific data split."""
     logger.info("Evaluating %s on %s...", model_name, split)
     
-    # Load the model
     try:
-        model = ModelFactory.from_pretrained(str(model_path), model_name=model_name)
-        model.to(device)
-        model.eval()
+        # Normalize model name to determine its type
+        normalized_name = model_name
+        logger.info("Normalized model name from '%s' to '%s'", model_name, normalized_name)
         
-        # Get tokenizer with robust fallback
+        # Load the model
         try:
-            tokenizer = ModelFactory.get_tokenizer_for_model(str(model_path), model_name)
-        except Exception as e:
-            logger.warning("Error loading tokenizer via ModelFactory: %s", str(e))
+            model = ModelFactory.from_pretrained(str(model_path), model_name=model_name)
+            model.to("cuda" if torch.cuda.is_available() else "cpu")
+            model.eval()
             
-            # Direct fallbacks for specific model types
-            if "roberta" in model_name.lower():
-                logger.info("Falling back to default RoBERTa tokenizer")
-                from transformers import AutoTokenizer
-                tokenizer = AutoTokenizer.from_pretrained("indolem/indobert-base-uncased")
-            elif "bert" in model_name.lower():
-                logger.info("Falling back to default BERT tokenizer")
-                from transformers import AutoTokenizer
-                tokenizer = AutoTokenizer.from_pretrained("firqaaa/indo-sentence-bert-base")
-            else:
-                # Last resort - try direct loading
-                logger.info("Attempting to load tokenizer directly from model path")
-                from transformers import AutoTokenizer
-                tokenizer = AutoTokenizer.from_pretrained(
-                    str(model_path), use_fast=True, local_files_only=False
-                )
-        
-        # Load the dataset
-        dataloader = get_nli_dataloader(
-            tokenizer=tokenizer,
-            split=split,
-            batch_size=batch_size,
-            max_length=max_length,
-            dataset_name=dataset_name,
-            num_workers=num_workers,
-            shuffle=False,
-        )
-        
-        # Evaluation
-        all_preds = []
-        all_labels = []
-        
-        with torch.no_grad():
-            for batch in tqdm(dataloader, desc=f"Evaluating {model_name} on {split}"):
-                input_ids = batch["input_ids"].to(device)
-                attention_mask = batch["attention_mask"].to(device)
-                token_type_ids = batch.get("token_type_ids", None)
-                if token_type_ids is not None:
-                    token_type_ids = token_type_ids.to(device)
-                labels = batch["labels"].to(device)
+            # Get tokenizer with robust fallback
+            try:
+                tokenizer = ModelFactory.get_tokenizer_for_model(str(model_path), model_name)
+            except Exception as e:
+                logger.warning("Error loading tokenizer via ModelFactory: %s", str(e))
                 
-                outputs = model(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    token_type_ids=token_type_ids,
-                )
-                
-                logits = outputs["logits"] if isinstance(outputs, dict) else outputs[0]
-                preds = torch.argmax(logits, dim=1)
-                
-                all_preds.extend(preds.cpu().numpy())
-                all_labels.extend(labels.cpu().numpy())
-        
-        # Compute metrics
-        dummy_logits = np.zeros((len(all_preds), 3))
-        for i, pred in enumerate(all_preds):
-            dummy_logits[i, pred] = 1
-        
-        metrics = compute_metrics(dummy_logits, all_labels)
-        logger.info(
-            "%s on %s: Accuracy=%.4f, F1=%.4f, Precision=%.4f, Recall=%.4f",
-            model_name,
-            split,
-            metrics["accuracy"],
-            metrics["f1"],
-            metrics["precision"],
-            metrics["recall"],
-        )
-        
-        return metrics
-    
+                # Direct fallbacks for specific model types
+                if "roberta" in model_name.lower():
+                    logger.info("Falling back to default RoBERTa tokenizer")
+                    from transformers import AutoTokenizer
+                    tokenizer = AutoTokenizer.from_pretrained("indolem/indobert-base-uncased")
+                elif "bert" in model_name.lower():
+                    logger.info("Falling back to default BERT tokenizer")
+                    from transformers import AutoTokenizer
+                    tokenizer = AutoTokenizer.from_pretrained("firqaaa/indo-sentence-bert-base")
+                else:
+                    # Last resort - try direct loading
+                    logger.info("Attempting to load tokenizer directly from model path")
+                    from transformers import AutoTokenizer
+                    tokenizer = AutoTokenizer.from_pretrained(
+                        str(model_path), use_fast=True, local_files_only=False
+                    )
+            
+            # Load the dataset
+            dataloader = get_nli_dataloader(
+                tokenizer=tokenizer,
+                split=split,
+                batch_size=batch_size,
+                max_length=max_length,
+                dataset_name=dataset_name,
+                shuffle=False,
+            )
+            
+            # Evaluation
+            all_preds = []
+            all_labels = []
+            
+            with torch.no_grad():
+                for batch in tqdm(dataloader, desc=f"Evaluating {model_name} on {split}"):
+                    input_ids = batch["input_ids"].to("cuda" if torch.cuda.is_available() else "cpu")
+                    attention_mask = batch["attention_mask"].to("cuda" if torch.cuda.is_available() else "cpu")
+                    token_type_ids = batch.get("token_type_ids", None)
+                    if token_type_ids is not None:
+                        token_type_ids = token_type_ids.to("cuda" if torch.cuda.is_available() else "cpu")
+                    labels = batch["labels"].to("cuda" if torch.cuda.is_available() else "cpu")
+                    
+                    outputs = model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        token_type_ids=token_type_ids,
+                    )
+                    
+                    logits = outputs["logits"] if isinstance(outputs, dict) else outputs[0]
+                    preds = torch.argmax(logits, dim=1)
+                    
+                    all_preds.extend(preds.cpu().numpy())
+                    all_labels.extend(labels.cpu().numpy())
+            
+            # Compute metrics
+            dummy_logits = np.zeros((len(all_preds), 3))
+            for i, pred in enumerate(all_preds):
+                dummy_logits[i, pred] = 1
+            
+            metrics = compute_metrics(dummy_logits, all_labels)
+            logger.info(
+                "%s on %s: Accuracy=%.4f, F1=%.4f, Precision=%.4f, Recall=%.4f",
+                model_name,
+                split,
+                metrics["accuracy"],
+                metrics["f1"],
+                metrics["precision"],
+                metrics["recall"],
+            )
+            
+            return metrics
+        except Exception as e:
+            logger.error("Error evaluating %s on %s: %s", model_name, split, str(e))
+            logger.debug("Stack trace:", exc_info=True)
+            # Check if the model directory exists and what files are in it
+            logger.error("Model directory contents: %s", list(model_path.glob("*")))
+            return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0}
     except Exception as e:
         logger.error("Error evaluating %s on %s: %s", model_name, split, str(e))
-        return {
-            "accuracy": 0.0,
-            "f1": 0.0,
-            "precision": 0.0,
-            "recall": 0.0,
-            "error": str(e),
-        }
+        logger.debug("Stack trace:", exc_info=True)
+        # Check if the model directory exists and what files are in it
+        logger.error("Model directory contents: %s", list(model_path.glob("*")))
+        return {"accuracy": 0.0, "f1": 0.0, "precision": 0.0, "recall": 0.0}
 
 
 def benchmark_models(
@@ -449,6 +451,12 @@ def parse_args() -> argparse.Namespace:
         help="Disable recursive search for models",
     )
     
+    parser.add_argument(
+        "--debug_discovery",
+        action="store_true",
+        help="Debug checkpoint discovery without evaluation",
+    )
+    
     return parser.parse_args()
 
 
@@ -463,6 +471,34 @@ def main() -> None:
     logger.info("Models directory: %s", args.models_dir)
     logger.info("Output directory: %s", output_dir)
     logger.info("Dataset splits: %s", args.splits)
+    
+    if args.debug_discovery:
+        # Just find checkpoints without evaluating
+        logger.info("Running in discovery debug mode - no evaluations will be performed")
+        logger.info("Searching for model checkpoints in %s", args.models_dir)
+        checkpoints = find_model_checkpoints(args.models_dir)
+        
+        # List directory structure for each model
+        for model_name, model_path in checkpoints:
+            logger.info("Found checkpoint: %s at %s", model_name, model_path)
+            logger.info("Contents: %s", list(model_path.glob("*")))
+            
+            # Check for tokenizer files
+            tokenizer_files = list(model_path.glob("tokenizer*")) + list(model_path.glob("vocab*"))
+            if tokenizer_files:
+                logger.info("Tokenizer files: %s", tokenizer_files)
+            else:
+                logger.info("No tokenizer files found")
+                
+            # Check for model files
+            model_files = list(model_path.glob("pytorch_model*")) + list(model_path.glob("config*"))
+            if model_files:
+                logger.info("Model files: %s", model_files)
+            else:
+                logger.info("No model files found")
+        
+        logger.info("Discovery debug complete. Found %d checkpoints.", len(checkpoints))
+        return
     
     results = benchmark_models(
         models_dir=args.models_dir,
