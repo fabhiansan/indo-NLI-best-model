@@ -353,7 +353,9 @@ def main():
     args = parse_args()
     
     # Setup logging
-    log_file = f"push_to_hub_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    logs_dir = os.path.join(project_root, "logs")
+    os.makedirs(logs_dir, exist_ok=True)
+    log_file = os.path.join(logs_dir, f"push_to_hub_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
     logger = setup_logging(log_file=log_file)
     
     logger.info(f"Arguments: {args}")
