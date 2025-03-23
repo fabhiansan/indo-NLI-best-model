@@ -167,77 +167,55 @@ class SentenceBERTForNLI(BaseNLIModel):
             with open(pretrained_model_name_path, "r") as f:
                 pretrained_model_name = f.read().strip()
                 logger.info(f"Found stored pretrained model name: {pretrained_model_name}")
-        
-        # If not found, and no config provided, use a default pretrained model
-        if pretrained_model_name is None and config is None:
-            pretrained_model_name = "firqaaa/indo-sentence-bert-base"
-            logger.warning(f"No pretrained model name found, using default: {pretrained_model_name}")
+        else:
+            raise ValueError(f"No pretrained_model_name.txt found at {pretrained_model_name_path}. Cannot load model.")
         
         # Check if we have fine-tuned weights
         pytorch_model_bin = os.path.join(model_path, "pytorch_model.bin")
-        has_fine_tuned_bert = os.path.exists(pytorch_model_bin)
+        safetensors_path = os.path.join(model_path, "model.safetensors")
+        has_fine_tuned_bert = os.path.exists(pytorch_model_bin) or os.path.exists(safetensors_path)
         
-        if has_fine_tuned_bert:
+        if not has_fine_tuned_bert:
+            raise ValueError(f"No fine-tuned BERT weights found at {pytorch_model_bin} or {safetensors_path}. Cannot load model.")
+        
+        if os.path.exists(pytorch_model_bin):
             logger.info(f"Found fine-tuned BERT weights at {pytorch_model_bin}")
-            
-            # Create minimal config for initial model instance
-            if config is None:
-                config = {
-                    "model": {
-                        "pretrained_model_name": pretrained_model_name or "firqaaa/indo-sentence-bert-base",
-                        "output_hidden_states": True,
-                    }
-                }
-            
-            # Create the model instance
-            model = cls(config, **kwargs)
-            
-            try:
-                # Load fine-tuned BERT weights
-                model_config = AutoConfig.from_pretrained(model_path)
-                model.bert = AutoModel.from_pretrained(model_path, config=model_config)
-                logger.info(f"Successfully loaded fine-tuned BERT weights from {model_path}")
-                
-                # Load classifier weights if they exist
-                classifier_path = os.path.join(model_path, "classifier.pt")
-                if os.path.exists(classifier_path):
-                    classifier_dict = torch.load(classifier_path)
-                    model.classifier.load_state_dict(classifier_dict["classifier"])
-                    model.pooling_strategy = classifier_dict.get("pooling_strategy", "mean")
-                    model.num_labels = classifier_dict.get("num_labels", 3)
-                    logger.info(f"Successfully loaded classifier weights from {classifier_path}")
-                else:
-                    logger.warning(f"No classifier weights found at {classifier_path}, using initialized classifier")
-                
-                return model
-            except Exception as e:
-                logger.error(f"Error loading fine-tuned BERT model: {str(e)}")
-                logger.warning("Falling back to base pretrained model")
-                # Continue to fallback approach if loading fails
-        else:
-            logger.warning(f"No fine-tuned BERT weights found at {pytorch_model_bin}")
+        if os.path.exists(safetensors_path):
+            logger.info(f"Found fine-tuned BERT weights in safetensors format at {safetensors_path}")
         
-        # Fallback: create a new model from base pretrained weights
+        # Create minimal config for initial model instance
         if config is None:
             config = {
                 "model": {
-                    "pretrained_model_name": pretrained_model_name or "firqaaa/indo-sentence-bert-base",
+                    "pretrained_model_name": pretrained_model_name,
                     "output_hidden_states": True,
                 }
             }
         
+        # Create the model instance
         model = cls(config, **kwargs)
         
-        # Still try to load classifier weights if they exist
-        classifier_path = os.path.join(model_path, "classifier.pt")
-        if os.path.exists(classifier_path):
-            classifier_dict = torch.load(classifier_path)
-            model.classifier.load_state_dict(classifier_dict["classifier"])
-            model.pooling_strategy = classifier_dict.get("pooling_strategy", "mean")
-            model.num_labels = classifier_dict.get("num_labels", 3)
-            logger.info(f"Loaded classifier weights from {classifier_path} with base pretrained BERT")
-        
-        return model
+        try:
+            # Load fine-tuned BERT weights
+            model_config = AutoConfig.from_pretrained(model_path)
+            model.bert = AutoModel.from_pretrained(model_path, config=model_config)
+            logger.info(f"Successfully loaded fine-tuned BERT weights from {model_path}")
+            
+            # Load classifier weights if they exist
+            classifier_path = os.path.join(model_path, "classifier.pt")
+            if os.path.exists(classifier_path):
+                classifier_dict = torch.load(classifier_path)
+                model.classifier.load_state_dict(classifier_dict["classifier"])
+                model.pooling_strategy = classifier_dict.get("pooling_strategy", "mean")
+                model.num_labels = classifier_dict.get("num_labels", 3)
+                logger.info(f"Successfully loaded classifier weights from {classifier_path}")
+            else:
+                raise ValueError(f"No classifier weights found at {classifier_path}. Cannot load model.")
+            
+            return model
+        except Exception as e:
+            logger.error(f"Error loading fine-tuned model: {str(e)}")
+            raise ValueError(f"Failed to load fine-tuned model: {str(e)}")
     
     @staticmethod
     def get_tokenizer(pretrained_model_name: str, **kwargs) -> AutoTokenizer:

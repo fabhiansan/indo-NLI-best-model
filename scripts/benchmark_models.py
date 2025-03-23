@@ -63,6 +63,21 @@ def find_model_checkpoints(
     Returns:
         List of tuples containing (model_name, checkpoint_path)
     """
+    logger.info(f"Looking for model checkpoints in {models_dir}")
+    
+    # Check if models_dir exists
+    if not os.path.exists(models_dir):
+        logger.warning(f"Models directory {models_dir} does not exist")
+        
+        # Try the logs directory as fallback
+        logs_dir = "logs"
+        if os.path.exists(logs_dir):
+            logger.info(f"Trying to find models in {logs_dir} directory instead")
+            models_dir = logs_dir
+        else:
+            logger.error("No model checkpoints found")
+            return []
+    
     models_path = Path(models_dir)
     checkpoints = []
     

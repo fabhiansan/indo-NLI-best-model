@@ -158,10 +158,14 @@ class ModelFactory:
         
         # Check for pytorch_model.bin
         pytorch_model_path = os.path.join(model_path, "pytorch_model.bin")
+        safetensors_path = os.path.join(model_path, "model.safetensors")
+        
         if os.path.exists(pytorch_model_path):
             logger.info(f"Found pytorch_model.bin, size: {os.path.getsize(pytorch_model_path) / (1024 * 1024):.2f} MB")
+        elif os.path.exists(safetensors_path):
+            logger.info(f"Found model.safetensors, size: {os.path.getsize(safetensors_path) / (1024 * 1024):.2f} MB")
         else:
-            logger.warning(f" No pytorch_model.bin found at {pytorch_model_path}")
+            logger.warning(f"❌ No model weights found at {pytorch_model_path} or {safetensors_path}")
             
         return model_class.from_pretrained(model_path, config, **kwargs)
     
