@@ -28,7 +28,7 @@ class RoBERTaForNLI(BaseNLIModel):
         super().__init__(config, num_labels)
         
         self.pretrained_model_name = config["model"]["pretrained_model_name"]
-        logger.info(f"Loading RoBERTa model from {self.pretrained_model_name}")
+        logger.info("Loading RoBERTa model from %s", self.pretrained_model_name)
         
         # Load model configuration
         model_config = AutoConfig.from_pretrained(
@@ -76,9 +76,14 @@ class RoBERTaForNLI(BaseNLIModel):
         Save the model to the specified directory.
         
         Args:
-            output_dir: Directory to save the model to
+            output_dir: Directory to save the model
         """
         os.makedirs(output_dir, exist_ok=True)
+        
+        # Save the original pretrained model name
+        with open(os.path.join(output_dir, "pretrained_model_name.txt"), "w") as f:
+            f.write(self.pretrained_model_name)
+            
         self.model.save_pretrained(output_dir)
     
     @classmethod
@@ -93,11 +98,25 @@ class RoBERTaForNLI(BaseNLIModel):
         Returns:
             Loaded model
         """
+        # Check if we have a stored pretrained model name
+        pretrained_model_name_path = os.path.join(model_path, "pretrained_model_name.txt")
+        pretrained_model_name = None
+        
+        if os.path.exists(pretrained_model_name_path):
+            with open(pretrained_model_name_path, "r") as f:
+                pretrained_model_name = f.read().strip()
+                logger.info("Found stored pretrained model name: %s", pretrained_model_name)
+        
+        # If not found, and no config provided, use a default pretrained model
+        if pretrained_model_name is None and config is None:
+            pretrained_model_name = "indolem/indobert-base-uncased"
+            logger.warning("No pretrained model name found, using default: %s", pretrained_model_name)
+            
         if config is None:
             # Create a default config if none is provided
             config = {
                 "model": {
-                    "pretrained_model_name": model_path,
+                    "pretrained_model_name": pretrained_model_name or model_path,
                     "output_hidden_states": False,
                 }
             }
@@ -110,9 +129,24 @@ class RoBERTaForNLI(BaseNLIModel):
         Get the tokenizer for the model.
         
         Args:
-            pretrained_model_name: Name of the pretrained model
+            pretrained_model_name: Path to model directory or name of pretrained model
             
         Returns:
             Tokenizer for the model
         """
-        return AutoTokenizer.from_pretrained(pretrained_model_name, **kwargs)
+        # If this is a local path, check for stored pretrained model name
+        pretrained_model_name_path = os.path.join(pretrained_model_name, "pretrained_model_name.txt")
+        if os.path.exists(pretrained_model_name_path):
+            with open(pretrained_model_name_path, "r") as f:
+                original_pretrained_name = f.read().strip()
+                logger.info("Loading tokenizer from original pretrained model: %s", original_pretrained_name)
+                return AutoTokenizer.from_pretrained(original_pretrained_name, **kwargs)
+        
+        # Otherwise try to load directly (might be a Hugging Face model name)
+        logger.info("Loading tokenizer from: %s", pretrained_model_name)
+        try:
+            return AutoTokenizer.from_pretrained(pretrained_model_name, **kwargs)
+        except OSError:
+            # Fall back to default model if loading fails
+            logger.warning("Failed to load tokenizer from %s, falling back to default", pretrained_model_name)
+            return AutoTokenizer.from_pretrained("indolem/indobert-base-uncased", **kwargs)
