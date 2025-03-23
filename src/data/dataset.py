@@ -87,8 +87,12 @@ class IndoNLIDataset(Dataset):
         for key in encoding:
             encoding[key] = encoding[key].squeeze(0)
         
-        # Add label
-        encoding["labels"] = INDONLI_LABELS[example["label"]]
+        # Add label - handle both string and integer labels
+        if isinstance(example["label"], str):
+            encoding["labels"] = INDONLI_LABELS[example["label"]]
+        else:
+            # If the label is already an integer, use it directly
+            encoding["labels"] = example["label"]
         
         return encoding
 
