@@ -30,6 +30,7 @@ from rich.console import Console
 from rich.table import Table
 from tqdm import tqdm
 from transformers import set_seed
+import numpy as np
 
 # Add the parent directory to the path so we can import project modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -205,7 +206,11 @@ def evaluate_model(
                 all_labels.extend(labels.cpu().numpy())
         
         # Compute metrics
-        metrics = compute_metrics(all_preds, all_labels)
+        dummy_logits = np.zeros((len(all_preds), 3))
+        for i, pred in enumerate(all_preds):
+            dummy_logits[i, pred] = 1
+        
+        metrics = compute_metrics(dummy_logits, all_labels)
         logger.info(
             "%s on %s: Accuracy=%.4f, F1=%.4f, Precision=%.4f, Recall=%.4f",
             model_name,
