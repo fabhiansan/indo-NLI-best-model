@@ -14,6 +14,9 @@ BATCH_SIZE=16
 NUM_EPOCHS=5
 SEED=42
 
+# Get the absolute path to the project root directory
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Parse command line arguments
 for arg in "$@"; do
   case $arg in
@@ -78,6 +81,7 @@ mkdir -p $LOG_DIR
 
 # Print configuration
 echo "=== Indo-NLI Model Evaluation ==="
+echo "Project Root: $PROJECT_ROOT"
 echo "Batch Size: $BATCH_SIZE"
 echo "Epochs: $NUM_EPOCHS"
 echo "Seed: $SEED"
@@ -101,8 +105,17 @@ if [ "$SKIP_SETUP" != "true" ]; then
   # Install requirements
   pip install -r requirements.txt
   
+  # Install the project in development mode
+  pip install -e .
+  
   echo "Environment setup complete."
 fi
+
+# Function to run Python command with proper Python path
+run_python() {
+  # Use PYTHONPATH to ensure 'src' is findable
+  PYTHONPATH=$PROJECT_ROOT python "$@"
+}
 
 # Function to run training and evaluation for a specific model
 run_model() {
@@ -114,7 +127,7 @@ run_model() {
   # Training
   if [ "$SKIP_TRAIN" != "true" ]; then
     echo "Training $model_name..."
-    python scripts/train.py \
+    run_python scripts/train.py \
       --config $model_config \
       --batch_size $BATCH_SIZE \
       --num_epochs $NUM_EPOCHS \
@@ -143,7 +156,7 @@ run_model() {
         fi
       fi
       
-      python scripts/evaluate.py \
+      run_python scripts/evaluate.py \
         --model_path $best_model_path \
         --model_name $model_name \
         --test_set $test_set \
@@ -174,7 +187,7 @@ run_model() {
     # Customize your repo name and organization as needed
     repo_name="indonli-${model_name}"
     
-    python scripts/push_to_hub.py \
+    run_python scripts/push_to_hub.py \
       --model_path $best_model_path \
       --model_name $model_name \
       --repo_name $repo_name 2>&1 | tee $LOG_DIR/push_${model_name}.log
@@ -209,7 +222,7 @@ if [ "$SKIP_REPORT" != "true" ]; then
     test_sets_arg="$test_sets_arg $test_set"
   done
   
-  python scripts/generate_report.py \
+  run_python scripts/generate_report.py \
     --models_dir $MODELS_DIR \
     --output_dir $REPORTS_DIR \
     --test_sets $test_sets_arg 2>&1 | tee $LOG_DIR/report_generation.log
