@@ -1,0 +1,12 @@
+2025-03-23 21:43:57,510 - root - INFO - Arguments: Namespace(models_dir='models', output_dir='reports/comparison', test_sets=['test_lay', 'test_expert'])
+2025-03-23 21:43:57,510 - root - INFO - Collecting metrics from all models
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for indo-roberta-base on test_lay
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for indo-roberta-base on test_expert
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for sentence-bert-simple on test_lay
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for sentence-bert-simple on test_expert
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for sentence-bert-proper on test_lay
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for sentence-bert-proper on test_expert
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for sentence-bert on test_lay
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for sentence-bert on test_expert
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for indo-roberta on test_lay
+2025-03-23 21:43:57,510 - root - WARNING - Evaluation directory not found for indo-roberta on test_expert

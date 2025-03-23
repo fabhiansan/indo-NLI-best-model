@@ -1,0 +1,788 @@
+{
+  "indo-roberta": {
+    "validation": {
+      "accuracy": 0.3673190714610833,
+      "precision": 0.12243969048702776,
+      "recall": 0.3333333333333333,
+      "f1": 0.17909454061251665,
+      "precision_entailment": 0.3673190714610833,
+      "recall_entailment": 1.0,
+      "f1_entailment": 0.53728362183755,
+      "precision_neutral": 0.0,
+      "recall_neutral": 0.0,
+      "f1_neutral": 0.0,
+      "precision_contradiction": 0.0,
+      "recall_contradiction": 0.0,
+      "f1_contradiction": 0.0
+    },
+    "test_lay": {
+      "accuracy": 0.3671058609722853,
+      "precision": 0.12236862032409511,
+      "recall": 0.3333333333333333,
+      "f1": 0.1790185000553894,
+      "precision_entailment": 0.3671058609722853,
+      "recall_entailment": 1.0,
+      "f1_entailment": 0.5370555001661682,
+      "precision_neutral": 0.0,
+      "recall_neutral": 0.0,
+      "f1_neutral": 0.0,
+      "precision_contradiction": 0.0,
+      "recall_contradiction": 0.0,
+      "f1_contradiction": 0.0
+    },
+    "test_expert": {
+      "accuracy": 0.33277479892761397,
+      "precision": 0.3135276593530863,
+      "recall": 0.3313327492490292,
+      "f1": 0.1894348427470973,
+      "precision_entailment": 0.3484848484848485,
+      "recall_entailment": 0.022094140249759846,
+      "f1_entailment": 0.04155374887082204,
+      "precision_neutral": 0.25806451612903225,
+      "recall_neutral": 0.01694915254237288,
+      "f1_neutral": 0.03180914512922465,
+      "precision_contradiction": 0.33403361344537813,
+      "recall_contradiction": 0.954954954954955,
+      "f1_contradiction": 0.49494163424124515
+    }
+  },
+  "indo-roberta-base": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base"
+    }
+  },
+  "indo-roberta-base-epoch-1": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-1"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-1"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-1"
+    }
+  },
+  "indo-roberta-base-epoch-2": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-2"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-2"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-2"
+    }
+  },
+  "indo-roberta-base-epoch-3": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-3"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-3"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-3"
+    }
+  },
+  "indo-roberta-base-epoch-4": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-4"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-4"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-4"
+    }
+  },
+  "indo-roberta-base-epoch-5": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-5"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-5"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-base-epoch-5"
+    }
+  },
+  "indo-roberta-epoch-1": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-1"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-1"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-1"
+    }
+  },
+  "indo-roberta-epoch-2": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-2"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-2"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-2"
+    }
+  },
+  "indo-roberta-epoch-3": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-3"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-3"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-3"
+    }
+  },
+  "indo-roberta-epoch-4": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-4"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-4"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-4"
+    }
+  },
+  "indo-roberta-epoch-5": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-5"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-5"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: indo-roberta-epoch-5"
+    }
+  },
+  "sentence-bert": {
+    "validation": {
+      "accuracy": 0.3236231224396905,
+      "precision": 0.34218672635388936,
+      "recall": 0.3378240817679388,
+      "f1": 0.31361397787614115,
+      "precision_entailment": 0.38904109589041097,
+      "recall_entailment": 0.17596034696406443,
+      "f1_entailment": 0.24232081911262798,
+      "precision_neutral": 0.29124579124579125,
+      "recall_neutral": 0.5397815912636506,
+      "f1_neutral": 0.37834882449425916,
+      "precision_contradiction": 0.34627329192546585,
+      "recall_contradiction": 0.2977303070761015,
+      "f1_contradiction": 0.32017229002153624
+    },
+    "test_lay": {
+      "accuracy": 0.3144025442980463,
+      "precision": 0.33225234340972176,
+      "recall": 0.32977470788306074,
+      "f1": 0.30538768733968363,
+      "precision_entailment": 0.38605898123324395,
+      "recall_entailment": 0.1782178217821782,
+      "f1_entailment": 0.2438611346316681,
+      "precision_neutral": 0.28547008547008546,
+      "recall_neutral": 0.5310015898251192,
+      "f1_neutral": 0.37131739855475265,
+      "precision_contradiction": 0.3252279635258359,
+      "recall_contradiction": 0.2801047120418848,
+      "f1_contradiction": 0.3009845288326301
+    },
+    "test_expert": {
+      "accuracy": 0.3344504021447721,
+      "precision": 0.34414621404510953,
+      "recall": 0.34015150670623734,
+      "f1": 0.3224765588474986,
+      "precision_entailment": 0.3714788732394366,
+      "recall_entailment": 0.2026897214217099,
+      "f1_entailment": 0.2622747047855811,
+      "precision_neutral": 0.3166974738139248,
+      "recall_neutral": 0.5444915254237288,
+      "f1_neutral": 0.40046747175691466,
+      "precision_contradiction": 0.3442622950819672,
+      "recall_contradiction": 0.2732732732732733,
+      "f1_contradiction": 0.3046875
+    }
+  },
+  "sentence-bert-epoch-1": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-1"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-1"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-1"
+    }
+  },
+  "sentence-bert-epoch-2": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-2"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-2"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-2"
+    }
+  },
+  "sentence-bert-epoch-3": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-3"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-3"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-3"
+    }
+  },
+  "sentence-bert-epoch-4": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-4"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-4"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-4"
+    }
+  },
+  "sentence-bert-epoch-5": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-5"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-5"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-epoch-5"
+    }
+  },
+  "sentence-bert-proper": {
+    "validation": {
+      "accuracy": 0.3450159308147474,
+      "precision": 0.37395053700743924,
+      "recall": 0.3634086744873832,
+      "f1": 0.32817119925789057,
+      "precision_entailment": 0.4180602006688963,
+      "recall_entailment": 0.15489467162329615,
+      "f1_entailment": 0.22603978300180833,
+      "precision_neutral": 0.30447987851176916,
+      "recall_neutral": 0.625585023400936,
+      "f1_neutral": 0.40960163432073543,
+      "precision_contradiction": 0.3993115318416523,
+      "recall_contradiction": 0.3097463284379172,
+      "f1_contradiction": 0.34887218045112783
+    },
+    "test_lay": {
+      "accuracy": 0.3375738300772376,
+      "precision": 0.3772082772424301,
+      "recall": 0.35727691331798095,
+      "f1": 0.3217983936643594,
+      "precision_entailment": 0.4575645756457565,
+      "recall_entailment": 0.15346534653465346,
+      "f1_entailment": 0.22984244670991658,
+      "precision_neutral": 0.29233105542900534,
+      "recall_neutral": 0.6120826709062003,
+      "f1_neutral": 0.39568345323741005,
+      "precision_contradiction": 0.3817292006525285,
+      "recall_contradiction": 0.306282722513089,
+      "f1_contradiction": 0.33986928104575165
+    },
+    "test_expert": {
+      "accuracy": 0.3485254691689008,
+      "precision": 0.37278504938145307,
+      "recall": 0.35926526340730414,
+      "f1": 0.30271776279196566,
+      "precision_entailment": 0.405982905982906,
+      "recall_entailment": 0.09125840537944284,
+      "f1_entailment": 0.14901960784313725,
+      "precision_neutral": 0.3322195704057279,
+      "recall_neutral": 0.7372881355932204,
+      "f1_neutral": 0.45804540967423496,
+      "precision_contradiction": 0.3801526717557252,
+      "recall_contradiction": 0.24924924924924924,
+      "f1_contradiction": 0.3010882708585248
+    }
+  },
+  "sentence-bert-proper-epoch-1": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-1"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-1"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-1"
+    }
+  },
+  "sentence-bert-proper-epoch-2": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-2"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-2"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-2"
+    }
+  },
+  "sentence-bert-proper-epoch-3": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-3"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-3"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-3"
+    }
+  },
+  "sentence-bert-proper-epoch-4": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-4"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-4"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-4"
+    }
+  },
+  "sentence-bert-proper-epoch-5": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-5"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-5"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-proper-epoch-5"
+    }
+  },
+  "sentence-bert-simple": {
+    "validation": {
+      "accuracy": 0.3873463814292217,
+      "precision": 0.38754603214961225,
+      "recall": 0.3765460386913085,
+      "f1": 0.3710373427327031,
+      "precision_entailment": 0.39462272333044235,
+      "recall_entailment": 0.563816604708798,
+      "f1_entailment": 0.4642857142857143,
+      "precision_neutral": 0.29945553539019965,
+      "recall_neutral": 0.2574102964118565,
+      "f1_neutral": 0.27684563758389263,
+      "precision_contradiction": 0.4685598377281947,
+      "recall_contradiction": 0.308411214953271,
+      "f1_contradiction": 0.3719806763285024
+    },
+    "test_lay": {
+      "accuracy": 0.39572921399363925,
+      "precision": 0.39996763039254385,
+      "recall": 0.3832170667436732,
+      "f1": 0.37418534310266977,
+      "precision_entailment": 0.40097799511002447,
+      "recall_entailment": 0.6089108910891089,
+      "f1_entailment": 0.48353808353808353,
+      "precision_neutral": 0.2966417910447761,
+      "recall_neutral": 0.2527821939586645,
+      "f1_neutral": 0.2729613733905579,
+      "precision_contradiction": 0.502283105022831,
+      "recall_contradiction": 0.2879581151832461,
+      "f1_contradiction": 0.36605657237936773
+    },
+    "test_expert": {
+      "accuracy": 0.353887399463807,
+      "precision": 0.3585914947409888,
+      "recall": 0.34826773381923254,
+      "f1": 0.32777133574218226,
+      "precision_entailment": 0.3503850385038504,
+      "recall_entailment": 0.611911623439001,
+      "f1_entailment": 0.44561035327037424,
+      "precision_neutral": 0.34171597633136097,
+      "recall_neutral": 0.24470338983050846,
+      "f1_neutral": 0.2851851851851852,
+      "precision_contradiction": 0.3836734693877551,
+      "recall_contradiction": 0.1881881881881882,
+      "f1_contradiction": 0.2525184687709872
+    }
+  },
+  "sentence-bert-simple-epoch-1": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-1"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-1"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-1"
+    }
+  },
+  "sentence-bert-simple-epoch-2": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-2"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-2"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-2"
+    }
+  },
+  "sentence-bert-simple-epoch-3": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-3"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-3"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-3"
+    }
+  },
+  "sentence-bert-simple-epoch-4": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-4"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-4"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-4"
+    }
+  },
+  "sentence-bert-simple-epoch-5": {
+    "validation": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-5"
+    },
+    "test_lay": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-5"
+    },
+    "test_expert": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "error": "Unknown model type: sentence-bert-simple-epoch-5"
+    }
+  }
+}
