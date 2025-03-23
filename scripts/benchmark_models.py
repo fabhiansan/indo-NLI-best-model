@@ -317,7 +317,7 @@ def evaluate_model(
                                         break
                                         
                             # Log what we found
-                            logger.info(f"Found logits in output dict with key: {[k for k, v in outputs.items() if v is logits][0] if logits is not None else 'NOT FOUND'}")
+                            # logger.info(f"Found logits in output dict with key: {[k for k, v in outputs.items() if v is logits][0] if logits is not None else 'NOT FOUND'}")
                                 
                         elif isinstance(outputs, tuple) and len(outputs) > 0:
                             logits = outputs[0]
