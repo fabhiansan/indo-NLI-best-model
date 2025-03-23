@@ -11,7 +11,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import torch
-from transformers import set_seed
+from transformers import set_seed, AutoTokenizer
 
 from src.data.dataset import get_nli_dataloader
 from src.models.model_factory import ModelFactory
@@ -88,8 +88,33 @@ def main():
     model = ModelFactory.from_pretrained(args.model_path, model_name=args.model_name, config=config)
     model.to(device)
     
-    # Get tokenizer - use the new robust tokenizer loader
-    tokenizer = ModelFactory.get_tokenizer_for_model(args.model_path, args.model_name)
+    # Get tokenizer with more robust fallback options
+    try:
+        # First try using our factory method
+        tokenizer = ModelFactory.get_tokenizer_for_model(args.model_path, args.model_name)
+    except Exception as e:
+        logger.warning("Error loading tokenizer using factory method: %s", str(e))
+        
+        # Direct fallbacks for specific model types
+        if "roberta" in args.model_name.lower():
+            logger.info("Falling back to default RoBERTa tokenizer")
+            tokenizer = AutoTokenizer.from_pretrained("indolem/indobert-base-uncased")
+        elif "bert" in args.model_name.lower():
+            logger.info("Falling back to default BERT tokenizer")
+            tokenizer = AutoTokenizer.from_pretrained("firqaaa/indo-sentence-bert-base")
+        else:
+            # Last resort - try direct loading from model path
+            logger.info("Attempting to load tokenizer directly from model path")
+            try:
+                tokenizer = AutoTokenizer.from_pretrained(
+                    args.model_path, 
+                    use_fast=True,
+                    local_files_only=False
+                )
+            except:
+                # Absolute last resort - use indobert
+                logger.warning("All tokenizer loading attempts failed, using indobert as fallback")
+                tokenizer = AutoTokenizer.from_pretrained("indolem/indobert-base-uncased")
     
     # Load test dataset
     logger.info("Loading test dataset: %s", args.test_set)
