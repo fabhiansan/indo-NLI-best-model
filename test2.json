@@ -1,0 +1,109 @@
+[
+  {
+    "id": {
+      "421": "20_perturbed_3",
+      "500": "20_original",
+      "2072": "20_perturbed_4",
+      "2238": "20_perturbed_1",
+      "2910": "20_perturbed_2",
+      "2958": "20_perturbed_5"
+    },
+    "amr": {
+      "421": "(z0 \\/ mengatakan-01\n    :ARG0 (z1 \\/ orang\n              :wiki \"Barack_Obama\"\n              :name (z2 \\/ nama\n                        :op1 \"Barack\"\n                        :op2 \"Obama\")\n              :ARG0-of (z3 \\/ memiliki-peran-org-91\n                           :ARG1 (z4 \\/ negara\n                                     :wiki \"United_States\"\n                                     :name (z5 \\/ nama\n                                               :op1 \"U.S.\"))\n                           :ARG2 (z6 \\/ presiden)))\n    :ARG1 (z7 \\/ menyimpulkan-01\n              :ARG0 z4\n              :ARG1 (z8 \\/ menyerang-01\n                        :ARG0 (z9 \\/ organisasi-pemerintah\n                                  :ARG0-of (z10 \\/ memerintah-01\n                                                :ARG1 (z11 \\/ negara\n                                                           :wiki \"Syria\"\n                                                           :name (z12 \\/ nama\n                                                                      :op1 \"Syria\"))))\n                        :manner (z13 \\/ senjata\n                                     :mod (z14 \\/ kimia))\n                        :location (z15 \\/ dekat-02\n                                       :ARG2 (z16 \\/ kota\n                                                  :wiki \"Damaskus\"\n                                                  :name (z17 \\/ nama\n                                                             :op1 \"Damaskus\"))))\n              :polarity -))",
+      "500": "# ::id 20\n# ::annotator mbart-en-id-smaller-fted\n# ::snt Presiden AS Barack Obama mengatakan AS telah menyimpulkan bahwa pemerintah Suriah melakukan serangan senjata kimia di dekat Damaskus.\n(z0 \\/ mengatakan-01\n    :ARG0 (z1 \\/ orang\n              :wiki \"Barack_Obama\"\n              :name (z2 \\/ nama\n                        :op1 \"Barack\"\n                        :op2 \"Obama\")\n              :ARG0-of (z3 \\/ memiliki-peran-org-91\n                           :ARG1 (z4 \\/ negara\n                                     :wiki \"United_States\"\n                                     :name (z5 \\/ nama\n                                               :op1 \"U.S.\"))\n                           :ARG2 (z6 \\/ presiden)))\n    :ARG1 (z7 \\/ menyimpulkan-01\n              :ARG0 z4\n              :ARG1 (z8 \\/ menyerang-01\n                        :ARG0 (z9 \\/ organisasi-pemerintah\n                                  :ARG0-of (z10 \\/ memerintah-01\n                                                :ARG1 (z11 \\/ negara\n                                                           :wiki \"Syria\"\n                                                           :name (z12 \\/ nama\n                                                                      :op1 \"Syria\"))))\n                        :manner (z13 \\/ senjata\n                                     :mod (z14 \\/ kimia))\n                        :location (z15 \\/ dekat-02\n                                       :ARG2 (z16 \\/ kota\n                                                  :wiki \"Damaskus\"\n                                                  :name (z17 \\/ nama\n                                                             :op1 \"Damaskus\"))))))",
+      "2072": "(z0 \\/ mengatakan-01\n    :ARG0 (z1 \\/ orang\n              :wiki \"Barack_Obama\"\n              :name (z2 \\/ nama\n                        :op1 \"Barack\"\n                        :op2 \"Obama\")\n              :ARG0-of (z3 \\/ memiliki-peran-org-91\n                           :ARG1 (z4 \\/ negara\n                                     :wiki \"United_States\"\n                                     :name (z5 \\/ nama\n                                               :op1 \"U.S.\"))\n                           :ARG2 (z6 \\/ presiden)))\n    :ARG1 (z7 \\/ menyimpulkan-01\n              :ARG0 z4\n              :ARG1 (z8 \\/ menyerang-01\n                        :ARG0 (z9 \\/ organisasi-pemerintah\n                                  :ARG0-of (z10 \\/ memerintah-01\n                                                :ARG1 (z11 \\/ negara\n                                                           :wiki \"Syria\"\n                                                           :name (z12 \\/ nama\n                                                                      :op1 \"Syria\"))))\n                        :manner (z13 \\/ senjata\n                                     :mod (z14 \\/ kimia))\n                        :location (z15 \\/ dekat-02\n                                       :ARG2 (z16 \\/ kota\n                                                  :wiki \"Damaskus\"\n                                                  :name (z17 \\/ nama\n                                                             :op1 \"Damaskus\"))\n                                       :ARG1-of (z18 \\/ event\n                                                     :value \"Pemilihan Umum 1991\")))))",
+      "2238": "(z0 \\/ mengatakan-01\n    :ARG0 (z1 \\/ orang\n              :wiki \"Barack_Obama\"\n              :name (z2 \\/ nama\n                        :op1 \"Barack\"\n                        :op2 \"Obama\")\n              :ARG0-of (z3 \\/ menolak-91\n                           :ARG1 (z4 \\/ negara\n                                     :wiki \"United_States\"\n                                     :name (z5 \\/ nama\n                                               :op1 \"U.S.\"))\n                           :ARG2 (z6 \\/ presiden)))\n    :ARG1 (z7 \\/ menyimpulkan-01\n              :ARG0 z4\n              :ARG1 (z8 \\/ menyerang-01\n                        :ARG0 (z9 \\/ organisasi-pemerintah\n                                  :ARG0-of (z10 \\/ memerintah-01\n                                                :ARG1 (z11 \\/ negara\n                                                           :wiki \"Syria\"\n                                                           :name (z12 \\/ nama\n                                                                      :op1 \"Syria\"))))\n                        :manner (z13 \\/ senjata\n                                     :mod (z14 \\/ kimia))\n                        :location (z15 \\/ dekat-02\n                                       :ARG2 (z16 \\/ kota\n                                                  :wiki \"Damaskus\"\n                                                  :name (z17 \\/ nama\n                                                             :op1 \"Damaskus\"))))))",
+      "2910": "(z0 \\/ mengatakan-01\n    :ARG0 (z1 \\/ orang\n              :wiki \"Barack_Obama\"\n              :name (z2 \\/ nama\n                        :op1 \"Barack\"\n                        :op2 \"Obama\")\n              :ARG0-of (z3 \\/ memiliki-peran-org-91\n                           :ARG1 (z4 \\/ negara\n                                     :wiki \"United_States\"\n                                     :name (z5 \\/ nama\n                                               :op1 \"U.S.\"))\n                           :ARG2 (z6 \\/ presiden)))\n    :ARG1 (z7 \\/ menyimpulkan-01\n              :ARG0 z4\n              :ARG1 (z8 \\/ menyerang-01\n                        :ARG0 (z9 \\/ organisasi-pemerintah\n                                  :ARG0-of (z10 \\/ Deregulate-01\n                                                :ARG1 (z11 \\/ negara\n                                                           :wiki \"Syria\"\n                                                           :name (z12 \\/ nama\n                                                                      :op1 \"Syria\"))))\n                        :manner (z13 \\/ senjata\n                                     :mod (z14 \\/ kimia))\n                        :location (z15 \\/ dekat-02\n                                       :ARG2 (z16 \\/ kota\n                                                  :wiki \"Damaskus\"\n                                                  :name (z17 \\/ nama\n                                                             :op1 \"Damaskus\"))))))",
+      "2958": "(z0 \\/ mengatakan-01\n    :ARG0 (z1 \\/ orang\n              :wiki \"Barack_Obama\"\n              :name (z2 \\/ nama\n                        :op1 \"Barack\"\n                        :op2 \"Obama\")\n              :ARG0-of (z3 \\/ memiliki-peran-org-91\n                           :ARG1 (z4 \\/ negara\n                                     :wiki \"United_States\"\n                                     :name (z5 \\/ nama\n                                               :op1 \"U.S.\"))\n                           :ARG2 (z6 \\/ presiden)))\n    :ARG1 (z7 \\/ menyimpulkan-01\n              :ARG0 z4\n              :ARG1 (z8 \\/ menyerang-01\n                        :ARG0 (z9 \\/ organisasi-pemerintah\n                                  :ARG0-of (z10 \\/ memerintah-01\n                                                :ARG1 (z11 \\/ negara\n                                                           :wiki \"Syria\"\n                                                           :name (z12 \\/ nama\n                                                                      :op1 \"Syria\"))))\n                        :manner (z13 \\/ senjata\n                                     :mod (z14 \\/ kimia))\n                        :path (z15 \\/ dekat-02\n                                   :ARG2 (z16 \\/ kota\n                                              :wiki \"Damaskus\"\n                                              :name (z17 \\/ nama\n                                                         :op1 \"Damaskus\"))))))"
+    },
+    "score": { "421": 0, "500": 1, "2072": 0, "2238": 0, "2910": 0, "2958": 0 },
+    "perturbation_type": {
+      "421": "predicate",
+      "500": null,
+      "2072": "out_of_article",
+      "2238": "predicate",
+      "2910": "predicate",
+      "2958": "circumstance"
+    },
+    "source_id": {
+      "421": null,
+      "500": null,
+      "2072": null,
+      "2238": null,
+      "2910": null,
+      "2958": null
+    },
+    "changelog": {
+      "421": {
+        "perturber": "predicate",
+        "changes": [{ "Added polarity to menyimpulkan-01": "negative" }]
+      },
+      "500": null,
+      "2072": {
+        "type": "out_of_article_error",
+        "added_concept": "event",
+        "added_relation": ":ARG1-of",
+        "added_value": "Pemilihan Umum 1991",
+        "connected_to": "z15",
+        "perturber": "out_of_article"
+      },
+      "2238": {
+        "perturber": "predicate",
+        "changes": [{ "memiliki-peran-org-91": "menolak" }],
+        "fallback": true
+      },
+      "2910": {
+        "perturber": "predicate",
+        "changes": [{ "memerintah-01": "Deregulate" }],
+        "fallback": true
+      },
+      "2958": {
+        "perturber": "circumstance",
+        "changes": [
+          {
+            "type": "discourse_error",
+            "old_relation": ":location",
+            "new_relation": ":path",
+            "nodes": ["z8", "z15"]
+          }
+        ]
+      }
+    },
+    "title": {
+      "421": "",
+      "500": "",
+      "2072": "",
+      "2238": "",
+      "2910": "",
+      "2958": ""
+    },
+    "target_summary": {
+      "421": null,
+      "500": null,
+      "2072": null,
+      "2238": null,
+      "2910": null,
+      "2958": null
+    },
+    "text_from_amr": {
+      "421": [
+        "presiden as barack obama mengatakan bahwa tidak ada kesimpulan untuk serangan senjata kimia oleh pemerintah suriah di dekat damaskus."
+      ],
+      "500": [
+        "presiden as barack obama mengatakan bahwa kesimpulan dari serangan senjata kimia oleh pemerintah suriah di dekat damaskus adalah:"
+      ],
+      "2072": [
+        "presiden as barack obama mengatakan bahwa kesimpulan dari serangan senjata kimia oleh pemerintah suriah di dekat damaskus pada pemilihan umum 1991 adalah:"
+      ],
+      "2238": [
+        "presiden as barack obama mengatakan itu adalah kesimpulan dari serangan senjata kimia oleh pemerintah suriah di dekat damaskus."
+      ],
+      "2910": [
+        "presiden as barack obama mengatakan bahwa kesimpulan dari serangan senjata kimia oleh pemerintah deregulated suriah di dekat damaskus adalah:"
+      ],
+      "2958": [
+        "presiden as barack obama mengatakan bahwa kesimpulannya adalah bahwa pemerintah siria menyerang pemerintah dengan senjata kimia di dekat damaskus."
+      ]
+    }
+  }
+]

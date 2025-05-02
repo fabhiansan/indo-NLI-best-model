@@ -1,0 +1,108 @@
+{
+  "id": {
+    "95": "10_original",
+    "866": "10_perturbed_1",
+    "1000": "10_perturbed_3",
+    "1768": "10_perturbed_2",
+    "3489": "10_perturbed_4",
+    "3788": "10_perturbed_5"
+  },
+  "amr": {
+    "95": "# ::id 10 \n# ::annotator mbart-en-id-smaller-fted \n# ::snt Bendera pelangi telah menjadi lambang gerakan hak-hak LGBT di seluruh dunia. \n(z0 \\/ melambangkan-01 \n    :ARG1 (z1 \\/ bendera \n              :mod (z2 \\/ pelangi)) \n    :ARG2 (z3 \\/ gerakan-07 \n              :ARG1 (z4 \\/ benar-05 \n                        :ARG1 (z5 \\/ orang \n                                  :mod (z6 \\/ gay-01))) \n              :location (z7 \\/ sekitar \n                            :op1 (z8 \\/ dunia))))",
+    "866": "(z0 \\/ melambangkan-01 \n    :ARG1 (z1 \\/ bendera \n              :mod (z2 \\/ pelangi)) \n    :ARG2 (z3 \\/ gerakan-07 \n              :ARG1 (z4 \\/ benar-05 \n                        :ARG1 (z5 \\/ orang \n                                  :mod (z6 \\/ gay-01))) \n              :location (z7 \\/ sekitar \n                            :op1 (z8 \\/ dunia))) \n    :polarity -)",
+    "1000": "(z0 \\/ melambangkan-01 \n    :ARG1 (z1 \\/ bendera \n              :mod (z2 \\/ pelangi)) \n    :ARG2 (z3 \\/ gerakan-07 \n              :ARG1 (z4 \\/ benar-05 \n                        :ARG1 (z5 \\/ orang \n                                  :mod (z6 \\/ gay-01))) \n              :location (z7 \\/ sekitar \n                            :op1 (z8 \\/ dunia))) \n    :polarity -)",
+    "1768": "(z0 \\/ melambangkan-01 \n    :ARG1 (z1 \\/ bendera \n              :mod (z2 \\/ pelangi)) \n    :ARG2 (z3 \\/ gerakan-07 \n              :ARG1 (z4 \\/ benar-05 \n                        :ARG1 (z5 \\/ orang \n                                  :mod (z6 \\/ gay-01))) \n              :location (z7 \\/ sekitar \n                            :op1 (z8 \\/ dunia))) \n    :polarity -)",
+    "3489": "(z0 \\/ melambangkan-01 \n    :ARG1 (z1 \\/ bendera \n              :mod (z2 \\/ pelangi)) \n    :ARG2 (z3 \\/ gerakan-07 \n              :ARG1 (z4 \\/ benar-05 \n                        :ARG1 (z5 \\/ orang \n                                  :mod (z6 \\/ gay-01))) \n              :location (z7 \\/ sekitar \n                            :op1 (z8 \\/ dunia))) \n    :polarity -)",
+    "3788": "(z0 \\/ melambangkan-01 \n    :ARG1 (z1 \\/ bendera \n              :mod (z2 \\/ pelangi)) \n    :ARG2 (z3 \\/ gerakan-07 \n              :ARG1 (z4 \\/ benar-05 \n                        :ARG1 (z5 \\/ orang \n                                  :mod (z6 \\/ gay-01) \n                                  :quant (z9 \\/ quantity \n                                             :quant  \"9576 \"))) \n              :location (z7 \\/ sekitar \n                            :op1 (z8 \\/ dunia))))"
+  },
+  "score": { "95": 1, "866": 0, "1000": 0, "1768": 0, "3489": 0, "3788": 0 },
+  "perturbation_type": {
+    "95": null,
+    "866": "predicate",
+    "1000": "predicate",
+    "1768": "predicate",
+    "3489": "predicate",
+    "3788": "out_of_article"
+  },
+  "source_id": {
+    "95": null,
+    "866": null,
+    "1000": null,
+    "1768": null,
+    "3489": null,
+    "3788": null
+  },
+  "changelog": {
+    "95": null,
+    "866": {
+      "perturber": "predicate",
+      "changes": [{ "Added polarity to melambangkan-01": "negative" }]
+    },
+    "1000": {
+      "perturber": "predicate",
+      "changes": [{ "Added polarity to melambangkan-01": "negative" }],
+      "fallback": true
+    },
+    "1768": {
+      "perturber": "predicate",
+      "changes": [{ "Added polarity to melambangkan-01": "negative" }]
+    },
+    "3489": {
+      "perturber": "predicate",
+      "changes": [{ "Added polarity to melambangkan-01": "negative" }],
+      "fallback": true
+    },
+    "3788": {
+      "type": "out_of_article_error",
+      "added_concept": "quantity",
+      "added_relation": ":quant",
+      "added_value": "9576",
+      "connected_to": "z5",
+      "perturber": "out_of_article"
+    }
+  },
+  "source_text": {
+    "95": "Diciptakan oleh Gilbert Baker pada tahun 1978, bendera ini dimunculkan dalam hari kebebasan kaum gay San Francisco tahun itu. \n \nGilbert Baker wafat Kamis (30\\/3) di tengah tidurnya, dan untuk menghormati Baker, BBC mengkesplorasi  bagaimana bedera ciptaannya telah menjadi simbol kebanggaan, perayaan dan protes kaum LGBT di seluruh pelosok. \n \nGilbert Baker menciptakan bendera pelangi LGBT pada 1978 \n \nASeekor anjing bergabung dalam Parade Pride di Cina. Homoseksualitas merupakan hal yang legal di Cina sejak 1997, namun tetap dianggap sebagai 'kelainan mental' hingga 2001. \n \nPara pengunjuk rasa dalam aksi LGBT di St Petersburg, Rusia. Homoseksualitas dianggap legal di Rusia sejak 1993, namun belakangan muncul UU baru yang melarang kaum LGBT  \"mempromosikan perilaku LGBT di kalangan anak-anak, \" dan parade semacam ini jadi lebi pelik pelaksanaannya. \n \nDi Israel, pegiat LGBT sering memadukan bendera pelangi dengan Bintang Daud, lambang negara Israel, dan lambang agama Yahudi. \n \nGay Pride di Istanbul, Turki, berlangsung lancar hingga 2015, dan mulai dihambat sejak tahun 2016. \n \nKaum LGBT Indonesia bisa bergerak leluasa hingga beberapa tahun lalu. \n \nParade Pride di New Delhi, India. Homoseksualitas disahkan tahun 2009, tapi dibatalkan pada 2013. Dan para pegiat hak LGBT kembali bertarung memperjuangakan hak-hak LGBT yang sebagian ditindas di India. \n \nPara pegiat hak-hak LGBT di Uganda. Diu negara Frika itu, gay dianggap perbuatan pidana, \n \nOrang-orang membentang bendera pelangi, Juni 2016 di Athena, Yunani, untuk menyampaikan pernghormatan pada para korban pembantaian klub gay di Orlando, Florida, ytang menewaskan 49 orang dan meluykai 53 orang. \n \nBendera Pelamgi terpanjang di dunia di Florida Quays, 15 Juni , 2003, terbentang dari teluk Meksikohingga pantai atlantik, menggunakan kebih dari 12.800 meter kain. \n \nLondon Pride 1995. Homoseksualitas dilegalkan di Inggris tahun 1967, di Skotlandia tahun 1982, dan di Irlandia UItara, tahun 1982 \n \n  \n \n",
+    "866": "Diciptakan oleh Gilbert Baker pada tahun 1978, bendera ini dimunculkan dalam hari kebebasan kaum gay San Francisco tahun itu. \n \nGilbert Baker wafat Kamis (30\\/3) di tengah tidurnya, dan untuk menghormati Baker, BBC mengkesplorasi  bagaimana bedera ciptaannya telah menjadi simbol kebanggaan, perayaan dan protes kaum LGBT di seluruh pelosok. \n \nGilbert Baker menciptakan bendera pelangi LGBT pada 1978 \n \nASeekor anjing bergabung dalam Parade Pride di Cina. Homoseksualitas merupakan hal yang legal di Cina sejak 1997, namun tetap dianggap sebagai 'kelainan mental' hingga 2001. \n \nPara pengunjuk rasa dalam aksi LGBT di St Petersburg, Rusia. Homoseksualitas dianggap legal di Rusia sejak 1993, namun belakangan muncul UU baru yang melarang kaum LGBT  \"mempromosikan perilaku LGBT di kalangan anak-anak, \" dan parade semacam ini jadi lebi pelik pelaksanaannya. \n \nDi Israel, pegiat LGBT sering memadukan bendera pelangi dengan Bintang Daud, lambang negara Israel, dan lambang agama Yahudi. \n \nGay Pride di Istanbul, Turki, berlangsung lancar hingga 2015, dan mulai dihambat sejak tahun 2016. \n \nKaum LGBT Indonesia bisa bergerak leluasa hingga beberapa tahun lalu. \n \nParade Pride di New Delhi, India. Homoseksualitas disahkan tahun 2009, tapi dibatalkan pada 2013. Dan para pegiat hak LGBT kembali bertarung memperjuangakan hak-hak LGBT yang sebagian ditindas di India. \n \nPara pegiat hak-hak LGBT di Uganda. Diu negara Frika itu, gay dianggap perbuatan pidana, \n \nOrang-orang membentang bendera pelangi, Juni 2016 di Athena, Yunani, untuk menyampaikan pernghormatan pada para korban pembantaian klub gay di Orlando, Florida, ytang menewaskan 49 orang dan meluykai 53 orang. \n \nBendera Pelamgi terpanjang di dunia di Florida Quays, 15 Juni , 2003, terbentang dari teluk Meksikohingga pantai atlantik, menggunakan kebih dari 12.800 meter kain. \n \nLondon Pride 1995. Homoseksualitas dilegalkan di Inggris tahun 1967, di Skotlandia tahun 1982, dan di Irlandia UItara, tahun 1982 \n \n  \n \n",
+    "1000": "Diciptakan oleh Gilbert Baker pada tahun 1978, bendera ini dimunculkan dalam hari kebebasan kaum gay San Francisco tahun itu. \n \nGilbert Baker wafat Kamis (30\\/3) di tengah tidurnya, dan untuk menghormati Baker, BBC mengkesplorasi  bagaimana bedera ciptaannya telah menjadi simbol kebanggaan, perayaan dan protes kaum LGBT di seluruh pelosok. \n \nGilbert Baker menciptakan bendera pelangi LGBT pada 1978 \n \nASeekor anjing bergabung dalam Parade Pride di Cina. Homoseksualitas merupakan hal yang legal di Cina sejak 1997, namun tetap dianggap sebagai 'kelainan mental' hingga 2001. \n \nPara pengunjuk rasa dalam aksi LGBT di St Petersburg, Rusia. Homoseksualitas dianggap legal di Rusia sejak 1993, namun belakangan muncul UU baru yang melarang kaum LGBT  \"mempromosikan perilaku LGBT di kalangan anak-anak, \" dan parade semacam ini jadi lebi pelik pelaksanaannya. \n \nDi Israel, pegiat LGBT sering memadukan bendera pelangi dengan Bintang Daud, lambang negara Israel, dan lambang agama Yahudi. \n \nGay Pride di Istanbul, Turki, berlangsung lancar hingga 2015, dan mulai dihambat sejak tahun 2016. \n \nKaum LGBT Indonesia bisa bergerak leluasa hingga beberapa tahun lalu. \n \nParade Pride di New Delhi, India. Homoseksualitas disahkan tahun 2009, tapi dibatalkan pada 2013. Dan para pegiat hak LGBT kembali bertarung memperjuangakan hak-hak LGBT yang sebagian ditindas di India. \n \nPara pegiat hak-hak LGBT di Uganda. Diu negara Frika itu, gay dianggap perbuatan pidana, \n \nOrang-orang membentang bendera pelangi, Juni 2016 di Athena, Yunani, untuk menyampaikan pernghormatan pada para korban pembantaian klub gay di Orlando, Florida, ytang menewaskan 49 orang dan meluykai 53 orang. \n \nBendera Pelamgi terpanjang di dunia di Florida Quays, 15 Juni , 2003, terbentang dari teluk Meksikohingga pantai atlantik, menggunakan kebih dari 12.800 meter kain. \n \nLondon Pride 1995. Homoseksualitas dilegalkan di Inggris tahun 1967, di Skotlandia tahun 1982, dan di Irlandia UItara, tahun 1982 \n \n  \n \n",
+    "1768": "Diciptakan oleh Gilbert Baker pada tahun 1978, bendera ini dimunculkan dalam hari kebebasan kaum gay San Francisco tahun itu. \n \nGilbert Baker wafat Kamis (30\\/3) di tengah tidurnya, dan untuk menghormati Baker, BBC mengkesplorasi  bagaimana bedera ciptaannya telah menjadi simbol kebanggaan, perayaan dan protes kaum LGBT di seluruh pelosok. \n \nGilbert Baker menciptakan bendera pelangi LGBT pada 1978 \n \nASeekor anjing bergabung dalam Parade Pride di Cina. Homoseksualitas merupakan hal yang legal di Cina sejak 1997, namun tetap dianggap sebagai 'kelainan mental' hingga 2001. \n \nPara pengunjuk rasa dalam aksi LGBT di St Petersburg, Rusia. Homoseksualitas dianggap legal di Rusia sejak 1993, namun belakangan muncul UU baru yang melarang kaum LGBT  \"mempromosikan perilaku LGBT di kalangan anak-anak, \" dan parade semacam ini jadi lebi pelik pelaksanaannya. \n \nDi Israel, pegiat LGBT sering memadukan bendera pelangi dengan Bintang Daud, lambang negara Israel, dan lambang agama Yahudi. \n \nGay Pride di Istanbul, Turki, berlangsung lancar hingga 2015, dan mulai dihambat sejak tahun 2016. \n \nKaum LGBT Indonesia bisa bergerak leluasa hingga beberapa tahun lalu. \n \nParade Pride di New Delhi, India. Homoseksualitas disahkan tahun 2009, tapi dibatalkan pada 2013. Dan para pegiat hak LGBT kembali bertarung memperjuangakan hak-hak LGBT yang sebagian ditindas di India. \n \nPara pegiat hak-hak LGBT di Uganda. Diu negara Frika itu, gay dianggap perbuatan pidana, \n \nOrang-orang membentang bendera pelangi, Juni 2016 di Athena, Yunani, untuk menyampaikan pernghormatan pada para korban pembantaian klub gay di Orlando, Florida, ytang menewaskan 49 orang dan meluykai 53 orang. \n \nBendera Pelamgi terpanjang di dunia di Florida Quays, 15 Juni , 2003, terbentang dari teluk Meksikohingga pantai atlantik, menggunakan kebih dari 12.800 meter kain. \n \nLondon Pride 1995. Homoseksualitas dilegalkan di Inggris tahun 1967, di Skotlandia tahun 1982, dan di Irlandia UItara, tahun 1982 \n \n  \n \n",
+    "3489": "Diciptakan oleh Gilbert Baker pada tahun 1978, bendera ini dimunculkan dalam hari kebebasan kaum gay San Francisco tahun itu. \n \nGilbert Baker wafat Kamis (30\\/3) di tengah tidurnya, dan untuk menghormati Baker, BBC mengkesplorasi  bagaimana bedera ciptaannya telah menjadi simbol kebanggaan, perayaan dan protes kaum LGBT di seluruh pelosok. \n \nGilbert Baker menciptakan bendera pelangi LGBT pada 1978 \n \nASeekor anjing bergabung dalam Parade Pride di Cina. Homoseksualitas merupakan hal yang legal di Cina sejak 1997, namun tetap dianggap sebagai 'kelainan mental' hingga 2001. \n \nPara pengunjuk rasa dalam aksi LGBT di St Petersburg, Rusia. Homoseksualitas dianggap legal di Rusia sejak 1993, namun belakangan muncul UU baru yang melarang kaum LGBT  \"mempromosikan perilaku LGBT di kalangan anak-anak, \" dan parade semacam ini jadi lebi pelik pelaksanaannya. \n \nDi Israel, pegiat LGBT sering memadukan bendera pelangi dengan Bintang Daud, lambang negara Israel, dan lambang agama Yahudi. \n \nGay Pride di Istanbul, Turki, berlangsung lancar hingga 2015, dan mulai dihambat sejak tahun 2016. \n \nKaum LGBT Indonesia bisa bergerak leluasa hingga beberapa tahun lalu. \n \nParade Pride di New Delhi, India. Homoseksualitas disahkan tahun 2009, tapi dibatalkan pada 2013. Dan para pegiat hak LGBT kembali bertarung memperjuangakan hak-hak LGBT yang sebagian ditindas di India. \n \nPara pegiat hak-hak LGBT di Uganda. Diu negara Frika itu, gay dianggap perbuatan pidana, \n \nOrang-orang membentang bendera pelangi, Juni 2016 di Athena, Yunani, untuk menyampaikan pernghormatan pada para korban pembantaian klub gay di Orlando, Florida, ytang menewaskan 49 orang dan meluykai 53 orang. \n \nBendera Pelamgi terpanjang di dunia di Florida Quays, 15 Juni , 2003, terbentang dari teluk Meksikohingga pantai atlantik, menggunakan kebih dari 12.800 meter kain. \n \nLondon Pride 1995. Homoseksualitas dilegalkan di Inggris tahun 1967, di Skotlandia tahun 1982, dan di Irlandia UItara, tahun 1982 \n \n  \n \n",
+    "3788": "Diciptakan oleh Gilbert Baker pada tahun 1978, bendera ini dimunculkan dalam hari kebebasan kaum gay San Francisco tahun itu. \n \nGilbert Baker wafat Kamis (30\\/3) di tengah tidurnya, dan untuk menghormati Baker, BBC mengkesplorasi  bagaimana bedera ciptaannya telah menjadi simbol kebanggaan, perayaan dan protes kaum LGBT di seluruh pelosok. \n \nGilbert Baker menciptakan bendera pelangi LGBT pada 1978 \n \nASeekor anjing bergabung dalam Parade Pride di Cina. Homoseksualitas merupakan hal yang legal di Cina sejak 1997, namun tetap dianggap sebagai 'kelainan mental' hingga 2001. \n \nPara pengunjuk rasa dalam aksi LGBT di St Petersburg, Rusia. Homoseksualitas dianggap legal di Rusia sejak 1993, namun belakangan muncul UU baru yang melarang kaum LGBT  \"mempromosikan perilaku LGBT di kalangan anak-anak, \" dan parade semacam ini jadi lebi pelik pelaksanaannya. \n \nDi Israel, pegiat LGBT sering memadukan bendera pelangi dengan Bintang Daud, lambang negara Israel, dan lambang agama Yahudi. \n \nGay Pride di Istanbul, Turki, berlangsung lancar hingga 2015, dan mulai dihambat sejak tahun 2016. \n \nKaum LGBT Indonesia bisa bergerak leluasa hingga beberapa tahun lalu. \n \nParade Pride di New Delhi, India. Homoseksualitas disahkan tahun 2009, tapi dibatalkan pada 2013. Dan para pegiat hak LGBT kembali bertarung memperjuangakan hak-hak LGBT yang sebagian ditindas di India. \n \nPara pegiat hak-hak LGBT di Uganda. Diu negara Frika itu, gay dianggap perbuatan pidana, \n \nOrang-orang membentang bendera pelangi, Juni 2016 di Athena, Yunani, untuk menyampaikan pernghormatan pada para korban pembantaian klub gay di Orlando, Florida, ytang menewaskan 49 orang dan meluykai 53 orang. \n \nBendera Pelamgi terpanjang di dunia di Florida Quays, 15 Juni , 2003, terbentang dari teluk Meksikohingga pantai atlantik, menggunakan kebih dari 12.800 meter kain. \n \nLondon Pride 1995. Homoseksualitas dilegalkan di Inggris tahun 1967, di Skotlandia tahun 1982, dan di Irlandia UItara, tahun 1982 \n \n  \n \n"
+  },
+  "title": {
+    "95": "",
+    "866": "",
+    "1000": "",
+    "1768": "",
+    "3489": "",
+    "3788": ""
+  },
+  "target_summary": {
+    "95": null,
+    "866": null,
+    "1000": null,
+    "1768": null,
+    "3489": null,
+    "3788": null
+  },
+  "text_from_amr": {
+    "95": [
+      "bendera pelangi melambangkan gerakan hak-hak gay di seluruh dunia."
+    ],
+    "866": [
+      "bendera pelangi tidak melambangkan gerakan hak-hak gay di seluruh dunia."
+    ],
+    "1000": [
+      "bendera pelangi tidak melambangkan gerakan hak-hak gay di seluruh dunia."
+    ],
+    "1768": [
+      "bendera pelangi tidak melambangkan gerakan hak-hak gay di seluruh dunia."
+    ],
+    "3489": [
+      "bendera pelangi tidak melambangkan gerakan hak-hak gay di seluruh dunia."
+    ],
+    "3788": [
+      "bendera pelangi melambangkan gerakan 976 orang gay di seluruh dunia."
+    ]
+  }
+}
