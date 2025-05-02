@@ -8,6 +8,7 @@ This README explains how to train the `flax-community/indonesian-roberta-large` 
 - PyTorch
 - Transformers
 - Datasets
+- PyYAML
 - Other dependencies as specified in the project
 
 ## Configuration
@@ -22,7 +23,11 @@ The configuration for the model is defined in `configs/indo_roberta_large.yaml`.
 
 ## Training
 
-To train the model, simply run:
+There are two ways to train the model:
+
+### Option 1: Using the project's module structure
+
+This option uses the existing project structure and imports modules from the `src` directory:
 
 ```bash
 python train_indo_roberta_large.py
@@ -34,6 +39,23 @@ Or make it executable and run:
 chmod +x train_indo_roberta_large.py
 ./train_indo_roberta_large.py
 ```
+
+### Option 2: Using the standalone script
+
+If you're having issues with Python imports, you can use the standalone script that includes all necessary code in a single file:
+
+```bash
+python train_indo_roberta_large_direct.py
+```
+
+Or make it executable and run:
+
+```bash
+chmod +x train_indo_roberta_large_direct.py
+./train_indo_roberta_large_direct.py
+```
+
+The standalone script doesn't rely on the project's module structure and can be run directly.
 
 ## Model Output
 
