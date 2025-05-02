@@ -16,12 +16,12 @@ import logging
 import argparse
 import random
 import numpy as np
-import pandas as pd # Needed again for JSON loading
+# import pandas as pd # No longer needed for loading
 from datetime import datetime
-from sklearn.model_selection import train_test_split # Needed again for splitting loaded data
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, confusion_matrix, classification_report
+# from sklearn.model_selection import train_test_split # Replaced by HF datasets splits
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support, confusion_matrix
 from collections import Counter
-# from datasets import load_dataset # Not using HF datasets for this task
+from datasets import load_dataset # Import datasets library
 
 import torch
 import torch.nn as nn
@@ -73,27 +73,26 @@ class FocalLoss(nn.Module):
 class EntailmentDataset(Dataset):
     """Dataset for entailment classification with data augmentation."""
     
-    def __init__(self, texts, hypotheses, labels, tokenizer, max_length=512, augment=False):
+    def __init__(self, dataset, tokenizer, max_length=512, augment=False):
         """
-        Initialize the dataset. (Reverted to list-based input)
+        Initialize the dataset using a Hugging Face dataset object.
 
         Args:
-            texts: List of source texts
-            hypotheses: List of generated texts
-            labels: List of labels (0 or 1 for binary classification)
+            dataset: Hugging Face dataset object (or slice)
             tokenizer: Tokenizer to use for encoding
             max_length: Maximum sequence length
             augment: Whether to apply data augmentation
         """
-        self.texts = texts
-        self.hypotheses = hypotheses
-        self.labels = labels
+        self.dataset = dataset
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.augment = augment
+        # Assuming standard IndoNLI columns: 'premise', 'hypothesis', 'label'
+        # Label mapping: 0 -> entailment, 1 -> neutral, 2 -> contradiction
+        # Adjust column names and mapping if necessary based on dataset inspection.
 
     def __len__(self):
-        return len(self.labels)
+        return len(self.dataset)
 
     def augment_text(self, text):
         """Apply simple data augmentation techniques."""
@@ -119,9 +118,10 @@ class EntailmentDataset(Dataset):
         return text
     
     def __getitem__(self, idx):
-        text = str(self.texts[idx])
-        hypothesis = str(self.hypotheses[idx])
-        label = self.labels[idx] # Should be 0 or 1
+        item = self.dataset[idx]
+        text = str(item['premise'])
+        hypothesis = str(item['hypothesis'])
+        label = item['label'] # Assuming label is already 0, 1, or 2
 
         # Apply data augmentation if enabled
         if self.augment:
@@ -147,96 +147,57 @@ class EntailmentDataset(Dataset):
         
         return encoding
 
-def load_custom_json(data_path, text_col='source_text', hypothesis_col='generated_indonesian', label_col='score'):
-    """
-    Load data from the specific JSON format like negfiltered_data_sample.json.
-
-    Args:
-        data_path: Path to the JSON file
-        text_col: Name of the key containing source texts
-        hypothesis_col: Name of the key containing hypotheses
-        label_col: Name of the key containing labels
-
-    Returns:
-        texts, hypotheses, labels (as lists)
-    """
-    logger.info(f"Loading custom JSON data from: {data_path}")
-    with open(data_path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-
-    if not isinstance(data, dict) or text_col not in data or hypothesis_col not in data or label_col not in data:
-        raise ValueError(f"JSON file {data_path} does not have the expected structure with keys: {text_col}, {hypothesis_col}, {label_col}")
-
-    # Convert the dictionary of dictionaries structure to lists, ensuring order by index
-    try:
-        # Sort keys numerically to maintain order
-        sorted_indices = sorted(data[label_col].keys(), key=int)
-        texts = [data[text_col][idx] for idx in sorted_indices]
-        hypotheses = [data[hypothesis_col][idx] for idx in sorted_indices]
-        labels = [data[label_col][idx] for idx in sorted_indices]
-    except KeyError as e:
-        raise ValueError(f"Missing index {e} in one of the JSON fields ({text_col}, {hypothesis_col}, {label_col})")
-    except Exception as e:
-        raise ValueError(f"Error processing JSON data: {e}")
-
-
-    # Log label distribution
-    label_counts = Counter(labels)
-    logger.info(f"Label distribution in loaded data: {label_counts}")
-
-    # Ensure labels are 0 or 1
-    if not all(lbl in [0, 1] for lbl in labels):
-         logger.warning("Labels contain values other than 0 or 1. Ensure this is intended for binary classification.")
-
-    return texts, hypotheses, labels
-
+# Removed the old load_data function as we now use datasets.load_dataset
 
 def compute_metrics(predictions, labels):
     """
     Compute evaluation metrics.
-
+    
     Args:
         predictions: Model predictions
         labels: Ground truth labels
-
+        
     Returns:
-        Dictionary of metrics for binary classification
+        Dictionary of metrics
     """
+    # Calculate accuracy
     accuracy = accuracy_score(labels, predictions)
-    # Calculate precision, recall, F1 for the positive class (1)
-    # Use zero_division=0 to handle cases where a class has no predictions/labels
-    precision, recall, f1, _ = precision_recall_fscore_support(labels, predictions, average='binary', pos_label=1, zero_division=0)
-
+    
+    # Calculate precision, recall, F1 for each class
+    precision, recall, f1, _ = precision_recall_fscore_support(labels, predictions, average=None)
+    
+    # Calculate macro-averaged metrics
+    macro_precision, macro_recall, macro_f1, _ = precision_recall_fscore_support(labels, predictions, average='macro')
+    
     # Create confusion matrix
-    cm = confusion_matrix(labels, predictions, labels=[0, 1]) # Ensure labels are 0, 1
-
+    cm = confusion_matrix(labels, predictions)
+    
     # Create metrics dictionary
     metrics = {
         'accuracy': accuracy,
-        'precision': precision, # Precision for class 1
-        'recall': recall,       # Recall for class 1
-        'f1': f1,               # F1 for class 1
+        'macro_precision': macro_precision,
+        'macro_recall': macro_recall,
+        'macro_f1': macro_f1,
     }
-
-    # Log full classification report for details
-    try:
-        report = classification_report(labels, predictions, target_names=['non-entailment (0)', 'entailment (1)'], zero_division=0)
-        logger.info(f"Classification Report:\n{report}")
-    except ValueError:
-        logger.warning("Could not generate classification report (possibly due to only one class present in labels/predictions).")
-
-
+    
+    # Add per-class metrics (Assuming 0: entailment, 1: neutral, 2: contradiction)
+    # Verify this mapping against the actual dataset if results seem off.
+    class_names = ['entailment', 'neutral', 'contradiction']
+    for i, class_name in enumerate(class_names[:len(precision)]):
+        metrics[f'precision_{class_name}'] = precision[i]
+        metrics[f'recall_{class_name}'] = recall[i]
+        metrics[f'f1_{class_name}'] = f1[i]
+    
     return metrics, cm
 
-def train_model(model, tokenizer, train_dataloader, eval_dataloader, optimizer, scheduler, device, # Added tokenizer
-                num_epochs, output_dir, gradient_accumulation_steps=1, patience=3,
+def train_model(model, train_dataloader, eval_dataloader, optimizer, scheduler, device, 
+                num_epochs, output_dir, gradient_accumulation_steps=1, patience=3, 
                 class_weights=None, num_labels=3):
     """
     Train the model with enhanced features.
-
+    
     Args:
         model: Model to train
-        tokenizer: Tokenizer associated with the model (for saving) # Added tokenizer arg
         train_dataloader: DataLoader for training data
         eval_dataloader: DataLoader for evaluation data
         optimizer: Optimizer
@@ -248,7 +209,7 @@ def train_model(model, tokenizer, train_dataloader, eval_dataloader, optimizer, 
         patience: Number of epochs to wait for improvement before early stopping
         class_weights: Weights for each class to handle class imbalance
         num_labels: Number of labels (2 for binary, 3 for multi-class)
-
+        
     Returns:
         Dictionary containing training history
     """
@@ -381,9 +342,9 @@ def train_model(model, tokenizer, train_dataloader, eval_dataloader, optimizer, 
         history['eval_metrics'].append(metrics)
         
         # Determine if this is the best model so far
-        # For binary classification, use F1 score for the positive class (1) as the primary metric
-        current_metric = metrics['f1'] # Using F1 score for class 1
-
+        # For multi-class, use macro F1 as the primary metric
+        current_metric = metrics['macro_f1'] if num_labels > 2 else metrics['accuracy']
+        
         if current_metric > best_eval_metric:
             best_eval_metric = current_metric
             history['best_metric'] = current_metric
@@ -428,29 +389,26 @@ def train_model(model, tokenizer, train_dataloader, eval_dataloader, optimizer, 
 
 def main():
     """Main function."""
-    parser = argparse.ArgumentParser(description="Finetune indonesian-roberta-large for binary entailment")
-    parser.add_argument("--data_path", type=str, required=True, help="Path to the input JSON data file (e.g., negfiltered_data_sample.json)")
-    parser.add_argument("--text_col", type=str, default="source_text", help="JSON key for source text")
-    parser.add_argument("--hypothesis_col", type=str, default="generated_indonesian", help="JSON key for hypothesis text")
-    parser.add_argument("--label_col", type=str, default="score", help="JSON key for the binary label (0 or 1)")
-    # parser.add_argument("--dataset_name", type=str, default="afaji/indonli", help="Hugging Face dataset name") # Removed
-    # parser.add_argument("--train_split", type=str, default="train", help="Dataset split for training") # Removed
-    # parser.add_argument("--validation_split", type=str, default="validation", help="Dataset split for validation") # Removed
+    parser = argparse.ArgumentParser(description="Enhanced script to finetune indonesian-roberta-large on IndoNLI dataset")
+    # parser.add_argument("--data_path", type=str, default="negfiltered_data_sample.json", help="Path to the data file") # Removed, using HF dataset
+    parser.add_argument("--dataset_name", type=str, default="afaji/indonli", help="Hugging Face dataset name")
+    parser.add_argument("--train_split", type=str, default="train", help="Dataset split for training")
+    parser.add_argument("--validation_split", type=str, default="validation", help="Dataset split for validation")
     parser.add_argument("--model_name", type=str, default="flax-community/indonesian-roberta-large", help="Pretrained model name")
-    parser.add_argument("--output_dir", type=str, default="./models/indoroberta-large-binary-entailment", help="Output directory")
-    parser.add_argument("--max_length", type=int, default=128, help="Maximum sequence length")
+    parser.add_argument("--output_dir", type=str, default="./models/indoroberta-large-enhanced", help="Output directory")
+    parser.add_argument("--max_length", type=int, default=128, help="Maximum sequence length (reduced default)") # Reduced default max_length
     parser.add_argument("--batch_size", type=int, default=8, help="Batch size")
     parser.add_argument("--learning_rate", type=float, default=1e-5, help="Learning rate")
     parser.add_argument("--num_epochs", type=int, default=10, help="Number of epochs")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--validation_size", type=float, default=0.15, help="Fraction of data to use for validation split") # Added validation split size
-    parser.add_argument("--warmup_ratio", type=float, default=0.1, help="Warmup ratio")
+    # parser.add_argument("--test_size", type=float, default=0.2, help="Test size for train/test split") # Removed
+    parser.add_argument("--warmup_ratio", type=float, default=0.1, help="Warmup ratio (adjusted default)") # Adjusted default
     parser.add_argument("--weight_decay", type=float, default=0.01, help="Weight decay")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=4, help="Gradient accumulation steps")
     parser.add_argument("--patience", type=int, default=3, help="Early stopping patience")
-    parser.add_argument("--num_labels", type=int, default=2, help="Number of labels (set to 2 for binary)") # Default to 2
+    parser.add_argument("--num_labels", type=int, default=3, help="Number of labels (2 for binary, 3 for multi-class)")
     parser.add_argument("--use_class_weights", action="store_true", help="Use class weights for imbalanced data")
-    parser.add_argument("--use_data_augmentation", action="store_true", help="Use data augmentation (basic implementation)")
+    parser.add_argument("--use_data_augmentation", action="store_true", help="Use data augmentation")
     args = parser.parse_args()
     
     # Create output directory
@@ -464,53 +422,30 @@ def main():
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(args.seed)
     
-    # Load data from the custom JSON file
-    texts, hypotheses, labels = load_custom_json(
-        args.data_path,
-        text_col=args.text_col,
-        hypothesis_col=args.hypothesis_col,
-        label_col=args.label_col
-    )
+    # Load dataset from Hugging Face Hub
+    logger.info(f"Loading dataset {args.dataset_name}")
+    dataset = load_dataset(args.dataset_name)
 
-    # Split data into train and validation sets
-    if args.validation_size > 0 and args.validation_size < 1.0:
-        train_texts, val_texts, train_hypotheses, val_hypotheses, train_labels, val_labels = train_test_split(
-            texts, hypotheses, labels,
-            test_size=args.validation_size,
-            random_state=args.seed,
-            stratify=labels # Stratify to maintain label distribution
-        )
-        logger.info(f"Train set size: {len(train_texts)}")
-        logger.info(f"Validation set size: {len(val_texts)}")
-    elif len(texts) > 0: # Use all data for training if validation_size is 0 or invalid, but only if data exists
-        train_texts, train_hypotheses, train_labels = texts, hypotheses, labels
-        val_texts, val_hypotheses, val_labels = [], [], []
-        logger.info(f"Train set size: {len(train_texts)} (Using all data for training)")
-        if args.validation_size <= 0 or args.validation_size >=1.0:
-             logger.warning("No validation set created (validation_size <= 0 or >= 1). Early stopping and best model saving based on validation will not function.")
-    else:
-        logger.error("No data loaded. Exiting.")
-        return # Exit if no data loaded
+    # Get train and validation splits
+    train_dataset_raw = dataset[args.train_split]
+    eval_dataset_raw = dataset[args.validation_split]
 
+    logger.info(f"Train set size: {len(train_dataset_raw)}")
+    logger.info(f"Validation set size: {len(eval_dataset_raw)}")
 
-    # Log label distribution for the actual training set
-    train_label_counts = Counter(train_labels)
-    logger.info(f"Actual Train label distribution: {train_label_counts}")
+    # Log label distribution for training set
+    train_label_counts = Counter(train_dataset_raw['label'])
+    logger.info(f"Train label distribution: {train_label_counts}")
 
-    # Calculate class weights if needed (based on the actual training split)
+    # Calculate class weights if needed
     class_weights = None
-    if args.use_class_weights and len(train_labels) > 0:
-        total_samples = len(train_labels)
-        num_labels = args.num_labels # Should be 2
+    if args.use_class_weights:
+        total_samples = len(train_dataset_raw)
+        num_labels = args.num_labels # Use num_labels from args
         # Ensure counts for all labels (0 to num_labels-1) are present, default to 1 if missing
         counts = [train_label_counts.get(i, 1) for i in range(num_labels)]
-        # Avoid division by zero if a class is missing entirely in the training split
-        if all(c > 0 for c in counts):
-             class_weights = [total_samples / (num_labels * count) for count in counts]
-             logger.info(f"Calculated class weights for training: {class_weights}")
-        else:
-             logger.warning("Cannot calculate class weights: one or more classes missing in the training split.")
-
+        class_weights = [total_samples / (num_labels * count) for count in counts]
+        logger.info(f"Calculated class weights: {class_weights}")
 
     # Load tokenizer and model
     logger.info(f"Loading tokenizer and model from {args.model_name}")
@@ -528,27 +463,20 @@ def main():
         config=config,
     )
     
-    # Create datasets (reverted to list-based input)
+    # Create datasets
     train_dataset = EntailmentDataset(
-        texts=train_texts,
-        hypotheses=train_hypotheses,
-        labels=train_labels,
+        dataset=train_dataset_raw,
         tokenizer=tokenizer,
         max_length=args.max_length,
         augment=args.use_data_augmentation,
     )
 
-    # Create validation dataset only if val_texts is not empty
-    eval_dataset = None
-    if val_texts:
-        eval_dataset = EntailmentDataset(
-            texts=val_texts,
-            hypotheses=val_hypotheses,
-            labels=val_labels,
-            tokenizer=tokenizer,
-            max_length=args.max_length,
-            augment=False,  # No augmentation for eval set
-        )
+    eval_dataset = EntailmentDataset(
+        dataset=eval_dataset_raw,
+        tokenizer=tokenizer,
+        max_length=args.max_length,
+        augment=False,  # No augmentation for eval set
+    )
 
     # Create dataloaders
     train_dataloader = DataLoader(
@@ -557,15 +485,12 @@ def main():
         shuffle=True,
     )
     
-    # Create eval dataloader only if eval_dataset exists
-    eval_dataloader = None
-    if eval_dataset:
-        eval_dataloader = DataLoader(
-            eval_dataset,
-            batch_size=args.batch_size,
-            shuffle=False, # No shuffle for eval
-        )
-
+    eval_dataloader = DataLoader(
+        eval_dataset,
+        batch_size=args.batch_size,
+        shuffle=False, # No shuffle for eval
+    )
+    
     # Determine device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Using device: {device}")
@@ -603,7 +528,6 @@ def main():
     logger.info("Starting training")
     history = train_model(
         model=model,
-        tokenizer=tokenizer, # Pass tokenizer here
         train_dataloader=train_dataloader,
         eval_dataloader=eval_dataloader, # Use the correct eval dataloader
         optimizer=optimizer,
@@ -623,3 +547,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
